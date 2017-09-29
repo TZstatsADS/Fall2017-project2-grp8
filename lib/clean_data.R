@@ -1,3 +1,5 @@
+# Function that cleans data and aggregates it into one csv file
+# It takes inputs: path to data (data_path) and desired output filename (output_file_name)
 clean_data = function(data_path, output_file_name) {
 
 	files = list.files(path = data_path)
