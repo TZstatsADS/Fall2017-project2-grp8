@@ -1,0 +1,247 @@
+---
+title: "Project2"
+author: "Shiqi Duan"
+date: "2017/9/26"
+output: html_document
+---
+
+```{r load_libs, message=F}
+if (!require("DT")) install.packages('DT')
+if (!require("dtplyr")) install.packages('dtplyr')
+if(!require("lubridate")) install.packages('lubridate')
+if(!require("treemap")) install.packages('treemap')
+
+library(dtplyr)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(treemap)
+```
+
+Prepare the data for the treemap
+```{r}
+setwd("/Users/duanshiqi/Documents/GitHub/Fall2017-project2-grp8/output")
+flight_data<-read.csv("./flight_data.csv",header=TRUE,as.is=TRUE)
+
+airport<-table(flight_data$dest)
+airport<-names(sort(airport,decreasing = TRUE)[1:77])
+
+tree_data=
+  flight_data%>%
+  filter(dest%in%airport,orig%in%airport)
+
+tree0=
+  tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=0)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree0$sat_time<-rep(0,nrow(tree0))
+
+tree1=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=60)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree1$sat_time<-rep(1,nrow(tree1))
+
+tree2=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=120)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree2$sat_time<-rep(2,nrow(tree2))
+
+tree3=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=180)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree3$sat_time<-rep(3,nrow(tree3))
+
+tree4=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=240)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree4$sat_time<-rep(4,nrow(tree4))
+
+  
+tree5=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  filter(expected_delay<=300)%>%
+  summarise(num_ontime=sum(num_flights))
+
+tree5$sat_time<-rep(5,nrow(tree5)) 
+
+tree_ontime<-rbind(tree0,tree1,tree2,tree3,tree4,tree5)
+
+tree_flights=tree_data%>%
+  group_by(dest,orig,month,carrier)%>%
+  summarise(total_num=sum(num_flights))
+
+tree_final=merge(tree_ontime,tree_flights,by.x=c("dest","orig","month","carrier"),by.y=c("dest","orig","month","carrier"))
+tree_final$prec=tree_final$num_ontime/tree_final$total_num
+
+tree_final1=tree_final[,c(1,2,3,4,6,8)]
+mo2Num <- function(x) match(tolower(x), tolower(month.abb))
+tree_final1$month=mo2Num(tree_final1$month)
+
+write.csv(tree_final,"./treemap.csv")
+write.csv(tree_final1,"./treemap1.csv")
+```
+
+show the treemap demon
+```{r}
+destination = "ORD (Chicago, IL)"
+origin = "DTW (Detroit, MI)"
+mon = 4
+satisfy_time_level = 5
+
+tree_select=tree_final1%>%
+  filter(dest==destination,orig==origin,month==mon,sat_time==satisfy_time_level)
+
+treemap(tree_select, index="carrier",vSize="prec",vColor="carrier")
+```
+
+##########server.R#######
+```{r}
+if(!require("readr")) install.packages("readr")
+if(!require("dplyr")) install.packages("dplyr")
+if(!require("DT")) install.packages("DT")
+if(!require("lubridate")) install.packages("lubridate")
+if(!require("sp")) install.packages("sp")
+if(!require("rgdal")) install.packages("rgdal")
+if(!require("shiny")) install.packages("shiny")
+library(readr)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(sp)
+library(rgdal)
+library(shiny)
+
+
+shinyServer(function(input,output){
+  
+  ## Tree Map
+  output$treemap<-renderPlot({
+    #selcet a destination, an origin, a month and a satisfied time point
+    tree_select=tree_final%>%
+      filter(dest==input$destination,orig==input$origin,month==input$mon,sat_time==input$satisfy_time)
+    
+    tree_select$label<-paste(tree_select$carrier,", ",round(100*tree_select$prec,2),"%",sep="")
+    treemap(tree_select,index='label',vSize="prec",vColor="label",type="categorical", palette="RdYlBu",aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
+    
+    #sub_country<-data.country[data.country$Country==input$country_name,]
+    #sub_country<-sub_country[1:input$activity_number,]
+    
+    #sub_country$label<-paste(sub_country$Activity,", ",sub_country$Type,", ",round(100*sub_country$Popular),"%",sep="")
+    #treemap(sub_country, index='label', vSize="Popular", vColor="Type", type="categorical", palette="RdYlBu",aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
+  })
+  ## end Tree Map
+})
+```
+########ui.R #########
+## Packages
+```{r}
+packages.used <- 
+  c("geosphere", # For spatial methods  
+    "threejs",   # threejs is used for 3-D interactive Earth Visualization
+    "rworldmap", # For creating earth map
+    "leaflet",   # Leaflet for R provides functions to control and integrate Leaflet, a JavaScript library for interactive maps, within R.
+    "rgeos",      # Provides functions for handling operations on topologies.
+    "raster",     # For raster image
+    "DT",         # For creating interactive tables
+    "ggplot2",
+    "sp"   ,       # For Spatial processing of data
+    "ggmap",       # To reverse geocode Long/Lat
+    "knitr",        # TO enable 3-D visualization embedding in the HTML page
+    "rglwidget",
+    "rgl",
+    "plyr",
+    "reshape2",
+    "maptools",
+    "shiny",
+    "googleVis",
+    "dplyr",
+    "plotly",
+    "RColorBrewer",
+    "treemap",
+    "gplots"
+  )
+
+# check packages that need to be installed.
+packages.needed=setdiff(packages.used, 
+                        intersect(installed.packages()[,1], 
+                                  packages.used))
+# install additional packages
+if(length(packages.needed)>0){
+  install.packages(packages.needed, dependencies = TRUE)
+}
+
+#load the packages
+library("gplots")
+library("plyr")
+library("dplyr")
+library("reshape2")
+library("geosphere")
+library("threejs")
+library("rworldmap")
+library("leaflet")
+library("rgeos")
+library("raster")
+library("DT")
+library("ggplot2")
+library("sp")
+library("ggmap")
+library("knitr")
+#library("rglwidget")
+library("rgl")
+library("maptools")
+library("shiny")
+library("googleVis")
+library("plotly")
+library("grid")
+library("gtable")
+library("treemap")
+library("RColorBrewer")
+
+tree_final1=read.csv("./treemap1.csv",header=TRUE,as.is=TRUE)
+airport_names=unique(tree_final1$dest)
+### Tree Map
+tabPanel("Carrier Choosing",
+         titlePanel("Satisfication Probability of Carriers"),
+         sidebarLayout(
+           sidebarPanel(
+             selectInput(inputId = "destination",
+                         label  = "Select the destination",
+                         choices = airport_names,
+                         selected ='ATL (Atlanta, GA)'),
+             selectInput(inputId = "origin",
+                         label  = "Select the origin",
+                         choices = airport_names,
+                         selected ='AUS (Austin, TX)'),
+             sliderInput(inputId = "mon",
+                         label = "Select the month",
+                         value = 1, min =1, max =50),
+             sliderInput(inputId = "satisfy_time",
+                         label = "Select the limit of delay time (hr)",
+                         value = 1,min = 0,max = 5),
+             
+             width = 3
+           ),
+           
+           mainPanel(
+             plotOutput("treemap",width = "100%", height = 600),
+             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                           draggable = TRUE, 
+                           top = 600, left = 20, right = "auto", bottom = "auto",
+                           width = 350, height = "auto",
+                           plotOutput("ggplot",width="100%",height="250px")
+             )
+           )
+         )
+)
+### end Tree Map
+```
