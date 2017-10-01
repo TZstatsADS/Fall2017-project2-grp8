@@ -51,7 +51,9 @@ library("RColorBrewer")
 setwd("/Users/duanshiqi/Documents/GitHub/Fall2017-project2-grp8/output")
 
 tree_final1=read.csv("./treemap1.csv",header=TRUE,as.is=TRUE)
-airport_names=unique(tree_final1$dest)
+#airport_names=unique(tree_final1$dest)
+dest_airport=unique(tree_final1$dest)
+orig_airport=sort(unique(tree_final1$orig))
 
 # ui.R
 
@@ -64,11 +66,11 @@ ui<-navbarPage(
              sidebarPanel(
                selectInput(inputId = "destination",
                            label  = "Select the destination",
-                           choices = airport_names,
+                           choices = dest_airport,
                            selected ='ATL (Atlanta, GA)'),
                selectInput(inputId = "origin",
                            label  = "Select the origin",
-                           choices = airport_names,
+                           choices = orig_airport,
                            selected ='AUS (Austin, TX)'),
                sliderInput(inputId = "mon",
                            label = "Select the month",

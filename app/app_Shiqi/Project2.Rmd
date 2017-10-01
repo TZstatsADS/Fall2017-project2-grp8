@@ -21,14 +21,15 @@ library(treemap)
 Prepare the data for the treemap
 ```{r}
 setwd("/Users/duanshiqi/Documents/GitHub/Fall2017-project2-grp8/output")
-flight_data<-read.csv("./flight_data.csv",header=TRUE,as.is=TRUE)
+tree_data<-read.csv("./flight_data.csv",header=TRUE,as.is=TRUE)
 
-airport<-table(flight_data$dest)
-airport<-names(sort(airport,decreasing = TRUE)[1:77])
 
-tree_data=
-  flight_data%>%
-  filter(dest%in%airport,orig%in%airport)
+#flight_data<-read.csv("./flight_data.csv",header=TRUE,as.is=TRUE)
+#airport1<-table(flight_data$dest)
+#airport<-names(sort(airport,decreasing = TRUE)[1:77])
+#tree_data=
+ # flight_data%>%
+  #filter(dest%in%airport,orig%in%airport)
 
 tree0=
   tree_data%>%
