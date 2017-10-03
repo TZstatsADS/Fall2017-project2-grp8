@@ -65,3 +65,68 @@ clean_data = function(data_path, output_file_name) {
 
 }
 
+generate_tree_data = function(data_path = "../output/") {
+  
+  tree_data<-read.csv(paste0(data_path,"flight_data.csv"),header=TRUE,as.is=TRUE)
+  
+  tree0=
+    tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=0)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree0$sat_time<-rep(0,nrow(tree0))
+  
+  tree1=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=60)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree1$sat_time<-rep(1,nrow(tree1))
+  
+  tree2=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=120)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree2$sat_time<-rep(2,nrow(tree2))
+  
+  tree3=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=180)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree3$sat_time<-rep(3,nrow(tree3))
+  
+  tree4=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=240)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree4$sat_time<-rep(4,nrow(tree4))
+  
+  
+  tree5=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    filter(expected_delay<=300)%>%
+    summarise(num_ontime=sum(num_flights))
+  
+  tree5$sat_time<-rep(5,nrow(tree5)) 
+  
+  tree_ontime<-rbind(tree0,tree1,tree2,tree3,tree4,tree5)
+  
+  tree_flights=tree_data%>%
+    group_by(dest,orig,month,carrier)%>%
+    summarise(total_num=sum(num_flights))
+  
+  tree_final=merge(tree_ontime,tree_flights,by.x=c("dest","orig","month","carrier"),by.y=c("dest","orig","month","carrier"))
+  tree_final$prec=tree_final$num_ontime/tree_final$total_num
+  
+  tree_final1=tree_final[,c(1,2,3,4,6,8)]
+  mo2Num <- function(x) match(tolower(x), tolower(month.abb))
+  tree_final1$month=mo2Num(tree_final1$month)
+  
+  write.csv(tree_final1,paste0(data_path,"treemap1.csv"))
+  
+}
+

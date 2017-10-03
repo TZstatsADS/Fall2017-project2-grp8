@@ -6,7 +6,8 @@ packages.used <-
     "shiny",
     "dplyr",
     "lubridate",
-    "zoo"
+    "zoo",
+    "treemap"
   )
 
 # check packages that need to be installed.
@@ -25,6 +26,7 @@ library(lubridate)
 library(dplyr)
 library(shiny)
 library(shinydashboard)
+library(treemap)
 
 #source
 source("../lib/plot_functions.R")
@@ -43,7 +45,8 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Flight Delay Time Expectations", tabName = "first_app"),
-      menuItem("Flight Delay Reasons", tabName = "second_app")
+      menuItem("Flight Delay Reasons", tabName = "second_app"),
+      menuItem("Flight Delay Probability", tabName = "third_app")
     )
   ),
   dashboardBody(
@@ -85,6 +88,34 @@ ui <- dashboardPage(
                                             'Aug','Sep','Oct','Nov','Dec'),
                                 selected ='Jan')),
                 box(plotOutput("plt_delay_reason_distr"))
+              
+            ),
+           
+      tabItem(tabName = "third_app",
+              h2("Flight Delay Probability"),
+              
+                box(
+                  selectInput(inputId = "destination3",
+                           label  = "Select the destination",
+                           choices = dest_airport,
+                           selected ='ATL (Atlanta, GA)'),
+                 selectInput(inputId = "origin3",
+                             label  = "Select the origin",
+                             choices = orig_airport,
+                             selected ='AUS (Austin, TX)'),
+                 sliderInput(inputId = "mon3",
+                             label = "Select the month",
+                             value = 1, min =1, max =12),
+                 sliderInput(inputId = "satisfy_time3",
+                             label = "Select the limit of delay time (hr)",
+                             value = 1,min = 0,max = 5)),
+                box(plotOutput("treemap",width = "100%", height = 600),
+                 absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                               draggable = TRUE, 
+                               top = 600, left = 20, right = "auto", bottom = "auto",
+                               width = 350, height = "auto",
+                               plotOutput("ggplot",width="100%",height="250px")
+               ))
               
             )
     )
