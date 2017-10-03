@@ -9,6 +9,7 @@ library(lubridate)
 library(dplyr)
 library(ggplot2)
 library(reshape2)
+library(plotly)
 ```
 
 
@@ -117,7 +118,10 @@ prepare_data <- function(data_path, output_file_name){
 ```{r}
 combined <- read.csv("0816_0717.csv")
 
-grp <- combined %>% 
+
+
+stack_barplot <- function(m,d,o){
+  grp <- combined %>% 
   group_by(month, carrier, dest, orig) %>%
   summarise(num_flights = length(month),
             num_delays = sum(ARR_DELAY > 0),
@@ -131,8 +135,7 @@ grp <- combined %>%
               percent_NAS_delay-percent_late_aircraft_delay)*percent_delays
             ) %>% 
   as.data.frame()
-
-stack_barplot <- function(m,d,o){
+  
   mm <- grp %>% 
     filter(month==m,dest==d,orig==o) %>% 
     select(carrier,percent_carrier_delay,percent_weather_delay,percent_NAS_delay,percent_security_delay,percent_late_aircraft_delay) %>% 
@@ -152,6 +155,7 @@ stack_barplot('Jul','JFK (New York, NY)','BOS (Boston, MA)')
 
 
 ```
+
 
 
 
