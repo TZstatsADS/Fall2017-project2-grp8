@@ -1,8 +1,11 @@
 Next meeting : Mon 6PM in school 
 
 Han & Peter -- multi-layer R Shiny
+
 Yuchen & Linhan -- R Shiny Map Part
+
 Shiqi -- Prediction
+
 Han & Pete r& Shiqi -- Story
 
 
