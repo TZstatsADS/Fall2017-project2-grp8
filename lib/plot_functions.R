@@ -136,7 +136,7 @@ plot_delay_time_distribution = function(filtered_data,origin,destination) {
 
 plot_delay_reason_distribution = function(filtered_data, origin, destination, month) {
   
-	title = "Delay Reason Distribution by Carrier for "
+	title = "Delay Reason Distribution by Carrier for \n"
 	if (origin == 'All' & destination == 'All') {
 
 		title = paste0(title, "All Flights within the US")
@@ -151,7 +151,7 @@ plot_delay_reason_distribution = function(filtered_data, origin, destination, mo
 
 	} else {
 
-		title = paste0(title,"Flights from ", destination, "to ",origin)
+		title = paste0(title,"Flights from ", destination, "\n to ",origin)
 
 	}
 	
