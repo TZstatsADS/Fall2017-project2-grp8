@@ -23,6 +23,8 @@ library(ggplot2)
 library(zoo)
 library(lubridate)
 library(dplyr)
+library(shiny)
+library(shinydashboard)
 
 #source
 source("../lib/plot_functions.R")
@@ -36,36 +38,36 @@ orig_airport=c('All',as.character(sort(unique(raw_data$orig))))
 
 #
 # ui.R
-
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("Satisfication Probability of Carriers"),
-  
-  # Sidebar with a selector input for neighborhood
-  sidebarLayout(
-    sidebarPanel(
-      selectInput(inputId = "destination",
-                           label  = "Select the Destination",
-                           choices = dest_airport,
-                           selected ='All'),
-               selectInput(inputId = "origin",
-                           label  = "Select the Origin",
-                           choices = orig_airport,
-                           selected ='All'),
-               
-               width = 3
-    ),
-    # Show two panels
-    mainPanel(
-      h3(code(textOutput("text1"))),
-      tabsetPanel(
-        tabPanel(h3("Flight Delay Analysis"),
-                 plotOutput("plt_delay_time"),
-                 plotOutput("plt_delay_flight_distr"),
-                 plotOutput("plt_delay_time_distr"),
-                 value=0)
-        )
+ui <- dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Flight Delay Time Expectations", tabName = "first_app"),
+      menuItem("Flight Delay Reasons", tabName = "second_app")
     )
- )
-))
+  ),
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "first_app",
+              h2("Flight Delay Time Expectations"),
+              fluidPage(
+                box(
+                  selectInput(inputId = "destination",
+                              label  = "Select the Destination",
+                              choices = dest_airport,
+                              selected ='All')),
+                box(
+                  selectInput(inputId = "origin",
+                              label  = "Select the Origin",
+                              choices = orig_airport,
+                              selected ='All')
+                  ),
+              box(plotOutput("plt_delay_time")),
+              box(plotOutput("plt_delay_flight_distr")),
+              box(plotOutput("plt_delay_time_distr"))
+      )),
+      tabItem(tabName = "second_app",
+              h2("Flight Delay Reasons"))
+    )
+  )
+)
