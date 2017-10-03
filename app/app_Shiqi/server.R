@@ -25,10 +25,10 @@ shinyServer(function(input, output) {
     #selcet a destination, an origin, a month and a satisfied time point
     tree_select=tree_final1%>%
       filter(dest==input$destination,orig==input$origin,month==input$mon,sat_time==input$satisfy_time)
-    
-    tree_select$label<-paste(tree_select$carrier,", ",round(100*tree_select$prec,2),"%",sep="")
-    treemap(tree_select,index='label',vSize="prec",vColor="label",type="categorical", palette="RdYlBu",aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
-    
+    if(nrow(tree_select)!=0){
+      tree_select$label<-paste(tree_select$carrier,", ",round(100*tree_select$prec,2),"%",sep="")
+      treemap(tree_select,index='label',vSize="prec",vColor="label",type="categorical", palette=rainbow(7),aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
+    }
   })
   ## end Tree Map
 })

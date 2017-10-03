@@ -1,3 +1,14 @@
+Next meeting : Mon 6PM in school 
+
+Han & Peter -- multi-layer R Shiny
+
+Yuchen & Linhan -- R Shiny Map Part
+
+Shiqi -- Prediction
+
+Han & Pete r& Shiqi -- Story
+
+
 # Project 2: Open Data App - an RShiny app development project
 
 ### [Project Description](doc/project2_desc.md)

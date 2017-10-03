@@ -50,10 +50,9 @@ library("RColorBrewer")
 #load data
 setwd("/Users/duanshiqi/Documents/GitHub/Fall2017-project2-grp8/output")
 
-tree_final1=read.csv("./treemap1.csv",header=TRUE,as.is=TRUE)
-#airport_names=unique(tree_final1$dest)
-dest_airport=unique(tree_final1$dest)
-orig_airport=sort(unique(tree_final1$orig))
+dest_airport=read.csv("./dest_airport.csv",header=TRUE,as.is=TRUE)[,-1]
+orig_airport=read.csv("./orig_airport.csv",header=TRUE,as.is=TRUE)[,-1]
+
 
 # ui.R
 
