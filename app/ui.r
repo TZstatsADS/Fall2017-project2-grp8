@@ -66,8 +66,27 @@ ui <- dashboardPage(
               box(plotOutput("plt_delay_flight_distr")),
               box(plotOutput("plt_delay_time_distr"))
       )),
+      
       tabItem(tabName = "second_app",
-              h2("Flight Delay Reasons"))
+              h2("Flight Delay Reasons"),
+              
+                box(
+                  selectInput(inputId = "destination2",
+                              label  = "Select the Destination",
+                              choices = dest_airport,
+                              selected ='All'),
+                  selectInput(inputId = "origin2",
+                              label  = "Select the Origin",
+                              choices = orig_airport,
+                              selected ='All'),
+                  selectInput(inputId = "month",
+                                label  = "Select the Month",
+                                choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+                                            'Aug','Sep','Oct','Nov','Dec'),
+                                selected ='Jan')),
+                box(plotOutput("plt_delay_reason_distr"))
+              
+            )
     )
   )
 )

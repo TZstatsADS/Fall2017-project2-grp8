@@ -1,6 +1,6 @@
 # Function that filters raw data based on origin and destination (both of which can be All)
 # It takes as inputs: origin and destination
-filter_data = function(raw_data, origin, destination) {
+filter_data = function(raw_data, origin, destination, month = NA) {
 
 	filtered_data = raw_data
 
@@ -20,6 +20,13 @@ filter_data = function(raw_data, origin, destination) {
 		filtered_data = filtered_data %>%
 			filter(dest == destination)
 
+	}
+	
+	if (!is.na(month)) {
+	  
+	  filtered_data = filtered_data %>%
+	    filter(month == month)
+	  
 	}
 
 	filtered_data = filtered_data %>%
