@@ -8,13 +8,17 @@
 #
 
 library(shiny)
+library(dplyr)
+library(ggplot2)
+library(DT)
+library(leaflet)
+library(geosphere)
+library(sparklyr)
+
+
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  
-  # Set display mode to bottom
-  tags$script(' var setInitialCodePosition = function() 
-              { setCodePosition(false, false); }; '),
   
   # Title
   titlePanel("NYCFlights13 Time Gained in Flight"),
@@ -24,10 +28,11 @@ shinyUI(fluidPage(
     sidebarPanel(
       sliderInput(inputId ="range",
                   label = "Time of data collection:",
-                  min = min(July2016_rain$time),
-                  max = max(July2016_rain$time),
-                  value = min(July2016_rain$time),#The initial value
-                  step = 7200)
+                  min = min(flightData$FL_DATE),
+                  max = max(flightData$FL_DATE),
+                  value = min(flightData$FL_DATE),#The initial value
+                  step = 24*3600,
+                  animate = animationOptions(interval = 1))
     ),
     # Show a tabset that includes a plot, model, and table view
     mainPanel(
