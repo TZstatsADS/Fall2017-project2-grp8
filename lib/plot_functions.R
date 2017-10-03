@@ -35,7 +35,7 @@ plot_delay_time = function(filtered_data,origin,destination) {
 			 colour = 'Carrier') +
 		theme(plot.title = element_text(hjust = 0.5))
 
-	return(p)
+	return(ggplotly(p))
 
 }
 
@@ -75,7 +75,7 @@ plot_delayed_flight_distribution = function(filtered_data,origin,destination) {
 		theme(plot.title = element_text(hjust = 0.5)) +
 		scale_y_continuous(labels = scales::comma_format())
 
-	return(p)
+	return(ggplotly(p))
 
 }
 
@@ -130,7 +130,7 @@ plot_delay_time_distribution = function(filtered_data,origin,destination) {
 		 scale_y_continuous(labels = scales::percent) +
 		theme(plot.title = element_text(hjust = 0.5))
 
-	return(p)
+	return(ggplotly(p))
 
 }
 
@@ -178,6 +178,6 @@ plot_delay_reason_distribution = function(filtered_data, origin, destination, mo
 		scale_y_continuous(labels = scales::percent) +
 		theme(plot.title = element_text(hjust = 0.5))
 
-	 return(p)
+	 return(ggplotly(p))
 	
 }

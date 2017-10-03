@@ -7,7 +7,8 @@ packages.used <-
     "dplyr",
     "lubridate",
     "zoo",
-    "treemap"
+    "treemap",
+    "plotly"
   )
 
 # check packages that need to be installed.
@@ -27,6 +28,9 @@ library(dplyr)
 library(shiny)
 library(shinydashboard)
 library(treemap)
+library(plotly)
+library(reshape)
+library(reshape2)
 
 #source
 source("../lib/plot_functions.R")
@@ -65,9 +69,9 @@ ui <- dashboardPage(
                               choices = orig_airport,
                               selected ='All')
                   ),
-              box(plotOutput("plt_delay_time")),
-              box(plotOutput("plt_delay_flight_distr")),
-              box(plotOutput("plt_delay_time_distr"))
+              box(plotlyOutput("plt_delay_time")),
+              box(plotlyOutput("plt_delay_flight_distr")),
+              box(plotlyOutput("plt_delay_time_distr"))
       )),
       
       tabItem(tabName = "second_app",
@@ -87,7 +91,7 @@ ui <- dashboardPage(
                                 choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
                                             'Aug','Sep','Oct','Nov','Dec'),
                                 selected ='Jan')),
-                box(plotOutput("plt_delay_reason_distr"))
+                box(plotlyOutput("plt_delay_reason_distr"))
               
             ),
            
