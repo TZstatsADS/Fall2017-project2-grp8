@@ -8,7 +8,9 @@ packages.used <-
     "lubridate",
     "zoo",
     "treemap",
-    "plotly"
+    "plotly",
+    "leaflet",
+    "geosphere"
   )
 
 # check packages that need to be installed.
@@ -34,14 +36,17 @@ library(leaflet)
 library(geosphere)
 
 
+source("../../lib/plot_functions.R")
+source("../../lib/filter_data_functions.R")
+source("../../lib/flight_path_map.R")
+source("../../lib/delay_percent_barplot.R")
 
-#source("../../../lib/plot_functions.R")
-#source("../../../lib/filter_data_functions.R")
-source("../../../lib/flight_path_map.R")
-source("../../../lib/delay_percent_barplot.R")
 
+raw_data = read.csv("../../output/flight_data.csv")
+dest_airport=c('All',as.character(sort(unique(raw_data$dest))))
+orig_airport=c('All',as.character(sort(unique(raw_data$orig))))
 
-temp <-  read.csv("../../../output/temp.csv",header=T)
+temp <-  read.csv("../../output/temp.csv",header=T)
 origins <- as.character(sort(unique(temp$orig)))
 destinations <- as.character(sort(unique(temp$dest)))
 
@@ -58,10 +63,6 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
         tabPanel('APP',
                  sidebarLayout(
                    sidebarPanel(
-                 # absolutePanel(
-                 #   fixed=TRUE,draggable=FALSE,
-                 #   top=20,left=10,right='auto',bottom='auto',
-                 #   width=330,height="auto",
                 
                      selectInput(inputId = "origin",
                                  label  = "Select the Origin",
@@ -92,94 +93,65 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                      
                      box(plotlyOutput("delay_barplot",height='200px'),width=300)
                      )
-                     
-                     
-                       
-                     # absolutePanel(fixed=TRUE,draggable=FALSE,
-                     #               top='50',left="auto",right=20,bottom="auto",
-                     #               width='330',height="600",
-                     #               h4("Different Carriers"),
-                     #               h4('bb:liajsldi'),
-                     #               h4('bb:liajsldi'),
-                     #               h4("Different Carriers"),
-                     #               h4("Different Carriers"),
-                     #               class = "panel panel-default",
-                     #               style="opacity:0.8"
-                     #               )
                                    
-                     
                    )
                  ),
         
+        tabPanel('Delay Time Expectation',
+                 sidebarLayout(
+                   sidebarPanel(
+                     
+                     selectInput(inputId = "destination1",
+                                 label  = "Select the Destination",
+                                 choices = dest_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "origin1",
+                                 label  = "Select the Origin",
+                                 choices = orig_airport,
+                                 selected ='All'),
+                     width = 3
+                   ),
+                   
+                   mainPanel(
+                     box(plotlyOutput("plt_delay_time"),width=300),
+                     box(plotlyOutput("plt_delay_flight_distr"),width=300),
+                     box(plotlyOutput("plt_delay_time_distr"),width=300)
+                     )
+                )
+        ),
+        
+        tabPanel('Delay Reason Expectation',
+                 sidebarLayout(
+                   sidebarPanel(
+                     
+                     selectInput(inputId = "destination2",
+                                 label  = "Select the Destination",
+                                 choices = dest_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "origin2",
+                                 label  = "Select the Origin",
+                                 choices = orig_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "month2",
+                                 label  = "Select the Month",
+                                 choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+                                             'Aug','Sep','Oct','Nov','Dec'),
+                                 selected ='Jan'),
+                     width = 3
+                   ),
+                   
+                   mainPanel(
+                     box(plotlyOutput("plt_delay_reason_distr"),width=300)
+                     )
+                   )
+                 ),
         
         tabPanel('Statistics'),
         tabPanel('About Us',
                  includeMarkdown('contact.md'))
-)
-)
+        )
+        )
 
 
 
-
-
-# 
-# ui <- dashboardPage(
-#   ########## Header ##########
-#   dashboardHeader(title ='Flight Delay'),
-#   ########### Sidebar ###########
-#   dashboardSidebar(
-#     sidebarMenu(
-#       menuItem("Introduction", tabName = "Introduction"),
-#       menuItem("Content", tabName = "Content"),
-#       menuItem("Statistics", tabName = "Statistics"),
-#       menuItem("About us", tabName = "About us")
-#     )
-#   ),
-# 
-#   ########## Body ##########
-#   dashboardBody(
-#     tabItems(
-#       tabItem(tabName = "Introduction",
-#               h2("This is introduction")
-#               ),
-# 
-#       tabItem(tabName = "Content",
-#               h2("This is content"),
-#               box(
-                # selectInput(inputId = "destination",
-                #             label  = "Select the Destination",
-                #             choices = as.character(sort(unique(grp$dest))),
-                #             selected ='LAX (Los Angeles, CA)'),
-                # selectInput(inputId = "origin",
-                #             label  = "Select the Origin",
-                #             choices = as.character(sort(unique(grp$orig))),
-                #             selected ='JFK (New York, NY)'),
-                # selectInput(inputId = "month",
-                #             label  = "Select the Month",
-                #             choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
-                #                         'Aug','Sep','Oct','Nov','Dec'),
-                #             selected ='Jul'),
-#                 width=4),
-#               box(leafletOutput("map"),width=8)
-#               
-#               ),
-#       
-#       
-#       
-#       tabItem(tabName = "Statistics",
-#               h2("This is statistics")
-#               ),
-# 
-#       tabItem(tabName = "About us",
-#               h2("This is about us")
-#               )
-#       )
-# 
-# 
-#   )
-# 
-# 
-# 
-# )
-# 
 

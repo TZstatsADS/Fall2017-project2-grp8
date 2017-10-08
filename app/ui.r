@@ -8,7 +8,8 @@ packages.used <-
     "lubridate",
     "zoo",
     "treemap",
-    "plotly"
+    "plotly",
+    "shinydashboard"
   )
 
 # check packages that need to be installed.
