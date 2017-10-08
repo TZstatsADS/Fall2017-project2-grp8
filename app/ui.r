@@ -1,42 +1,157 @@
-library(shiny)
-library(leaflet)
+packages.used <- 
+  c("ggplot2",
+    "plyr",
+    "reshape2",
+    "reshape",
+    "shiny",
+    "dplyr",
+    "lubridate",
+    "zoo",
+    "treemap",
+    "plotly",
+    "leaflet",
+    "geosphere"
+  )
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("2009 Manhattan Housing Sales"),
-  
-  # Sidebar with a selector input for neighborhood
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("nbhd", label = h5("Choose a Manhattan Neighborhood"), 
-                         choices = list("all neighborhoods"=0,
-                                        "Central Harlem"=1, 
-                                        "Chelsea and Clinton"=2,
-                                        "East Harlem"=3, 
-                                        "Gramercy Park and Murray Hill"=4,
-                                        "Greenwich Village and Soho"=5, 
-                                        "Lower Manhattan"=6,
-                                        "Lower East Side"=7, 
-                                        "Upper East Side"=8, 
-                                        "Upper West Side"=9,
-                                        "Inwood and Washington Heights"=10), 
-                         selected = 0)
-      #sliderInput("p.range", label=h3("Price Range (in thousands of dollars)"),
-      #            min = 0, max = 20000, value = c(200, 10000))
-    ),
-    # Show two panels
-    mainPanel(
-      #h4(textOutput("text")),
-      h3(code(textOutput("text1"))),
-      tabsetPanel(
-        # Panel 1 has three summary plots of sales. 
-        tabPanel("Sales summary", plotOutput("distPlot")), 
-        # Panel 2 has a map display of sales' distribution
-        tabPanel("Sales map", plotOutput("distPlot1"))),
-      leafletOutput("map", width = "80%", height = "400px")
-    )
- )
-))
+# check packages that need to be installed.
+packages.needed=setdiff(packages.used, 
+                        intersect(installed.packages()[,1], 
+                                  packages.used))
+# install additional packages
+if(length(packages.needed)>0){
+  install.packages(packages.needed, dependencies = TRUE)
+}
+
+#load the packages
+library(ggplot2)
+library(zoo)
+library(lubridate)
+library(dplyr)
+library(shiny)
+library(shinydashboard)
+library(treemap)
+library(plotly)
+library(reshape2)
+library(leaflet)
+library(geosphere)
+
+
+source("../lib/plot_functions.R")
+source("../lib/filter_data_functions.R")
+source("../lib/flight_path_map.R")
+source("../lib/delay_percent_barplot.R")
+
+
+raw_data = read.csv("../output/flight_data.csv")
+dest_airport=c('All',as.character(sort(unique(raw_data$dest))))
+orig_airport=c('All',as.character(sort(unique(raw_data$orig))))
+
+temp <-  read.csv("../output/temp.csv",header=T)
+origins <- as.character(sort(unique(temp$orig)))
+destinations <- as.character(sort(unique(temp$dest)))
+
+#Define UI for application that draws a histogram
+shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
+        tabPanel("Introduction",
+                 mainPanel(
+                   img(src="world_flight.jpg",height='300',width='600'),
+                   h2('Introduction')
+                   )
+                 # titlePanel(h2("Introduction")),
+                 # mainPanel(tabPanel("Introduction"))
+        ),
+        tabPanel('APP',
+                 sidebarLayout(
+                   sidebarPanel(
+                
+                     selectInput(inputId = "origin",
+                                 label  = "Select the Origin",
+                                 choices = origins,
+                                             selected ='JFK (New York, NY)'),
+                     selectInput(inputId = "destination",
+                                 label  = "Select the Destination",
+                                 choices = c('all',destinations),
+                                 selected ='all'),
+                     selectInput(inputId = "month",
+                                 label  = "Select the Month",
+                                 choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+                                             'Aug','Sep','Oct','Nov','Dec'),
+                                 selected ='Jul'),
+                     radioButtons(inputId = "type",
+                                  label = 'Calculated by:',
+                                  choices = c('Percent of delay flights',
+                                              'Average delay time'),
+                                  selected = 'Percent of delay flights'),
+                     width = 3
+                 ),
+                   
+                   mainPanel(
+                     #plotOutput("delay_barplot",height='200px')
+                          
+                     box(leafletOutput("map"),
+                         width=600),
+                     
+                     box(plotlyOutput("delay_barplot",height='200px'),width=300)
+                     )
+                                   
+                   )
+                 ),
+        
+        tabPanel('Delay Time Expectation',
+                 sidebarLayout(
+                   sidebarPanel(
+                     
+                     selectInput(inputId = "destination1",
+                                 label  = "Select the Destination",
+                                 choices = dest_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "origin1",
+                                 label  = "Select the Origin",
+                                 choices = orig_airport,
+                                 selected ='All'),
+                     width = 3
+                   ),
+                   
+                   mainPanel(
+                     box(plotlyOutput("plt_delay_time"),width=300),
+                     box(plotlyOutput("plt_delay_flight_distr"),width=300),
+                     box(plotlyOutput("plt_delay_time_distr"),width=300)
+                     )
+                )
+        ),
+        
+        tabPanel('Delay Reason Expectation',
+                 sidebarLayout(
+                   sidebarPanel(
+                     
+                     selectInput(inputId = "destination2",
+                                 label  = "Select the Destination",
+                                 choices = dest_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "origin2",
+                                 label  = "Select the Origin",
+                                 choices = orig_airport,
+                                 selected ='All'),
+                     selectInput(inputId = "month2",
+                                 label  = "Select the Month",
+                                 choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+                                             'Aug','Sep','Oct','Nov','Dec'),
+                                 selected ='Jan'),
+                     width = 3
+                   ),
+                   
+                   mainPanel(
+                     box(plotlyOutput("plt_delay_reason_distr"),width=300)
+                     )
+                   )
+                 ),
+        
+        tabPanel('Statistics'),
+        tabPanel('About Us',
+                 includeMarkdown('contact.md'))
+        )
+        )
+
+
+
 

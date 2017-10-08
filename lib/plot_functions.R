@@ -17,7 +17,7 @@ plot_delay_time = function(filtered_data,origin,destination) {
 
 	} else {
 
-		title = paste0(title,"Flights from ", destination, "\nto ",origin)
+		title = paste0(title,"Flights from ", destination, " to ",origin)
 
 	}
 
@@ -35,7 +35,7 @@ plot_delay_time = function(filtered_data,origin,destination) {
 			 colour = 'Carrier') +
 		theme(plot.title = element_text(hjust = 0.5))
 
-	return(p)
+	return(ggplotly(p))
 
 }
 
@@ -58,7 +58,7 @@ plot_delayed_flight_distribution = function(filtered_data,origin,destination) {
 
 	} else {
 
-		title = paste0(title,"Flights from ", destination, "\n to ",origin)
+		title = paste0(title,"Flights from ", destination, " to ",origin)
 
 	}
 
@@ -75,7 +75,7 @@ plot_delayed_flight_distribution = function(filtered_data,origin,destination) {
 		theme(plot.title = element_text(hjust = 0.5)) +
 		scale_y_continuous(labels = scales::comma_format())
 
-	return(p)
+	return(ggplotly(p))
 
 }
 
@@ -98,7 +98,7 @@ plot_delay_time_distribution = function(filtered_data,origin,destination) {
 
 	} else {
 
-		title = paste0(title,"Flights from ", destination, "\nto ",origin)
+		title = paste0(title,"Flights from ", destination, " to ",origin)
 
 	}
 
@@ -130,6 +130,54 @@ plot_delay_time_distribution = function(filtered_data,origin,destination) {
 		 scale_y_continuous(labels = scales::percent) +
 		theme(plot.title = element_text(hjust = 0.5))
 
-	return(p)
+	return(ggplotly(p))
 
+}
+
+plot_delay_reason_distribution = function(filtered_data, origin, destination, month) {
+  
+	title = "Delay Reason Distribution by Carrier for \n"
+	if (origin == 'All' & destination == 'All') {
+
+		title = paste0(title, "All Flights within the US")
+
+	} else if (origin == 'All') {
+
+		title = paste0(title, "All Flights to ",destination)
+
+	} else if (destination == 'All') {
+
+		title = paste0(title, "All Flights from ", origin)
+
+	} else {
+
+		title = paste0(title,"Flights from ", destination, "\n to ",origin)
+
+	}
+	
+	title = paste0(title," in ",month)
+  
+	plot_data = filtered_data %>%
+	  group_by(carrier) %>%
+	  summarise("Carrier Delay" = sum(num_carrier_delay) / sum(num_flights),
+	            "Weather Delay" = sum(num_weather_delay) / sum(num_flights),
+	            "NAS Delay" = sum(num_nas_delay) / sum(num_flights),
+	            "Security Delay" = sum(num_security_delay) / sum(num_flights),
+	            "Late Aircraft Delay" = sum(num_late_aircraft_delay) / sum(num_flights),
+	            "Other Delay" = sum(num_other_delays) / sum(num_flights))
+	
+	plot_data = melt(data.frame(plot_data),id.vars = 'carrier')
+	plot_data$variable = gsub("\\."," ",plot_data$variable)
+	
+	p = ggplot(plot_data, aes(x = carrier, y = value, fill = variable)) + 
+	  geom_bar(stat = "identity")+
+	  labs(title = title,
+	       x = 'Carrier',
+	       y = 'Delay Probability',
+	       fill = 'Delay Reason') +
+		scale_y_continuous(labels = scales::percent) +
+		theme(plot.title = element_text(hjust = 0.5))
+
+	 return(ggplotly(p))
+	
 }
