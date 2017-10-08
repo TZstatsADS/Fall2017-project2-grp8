@@ -1,9 +1,9 @@
 library(shiny)
 
-temp <-  read.csv("../../output/temp.csv",header=T)
-raw_data <-  read.csv("../../output/flight_data.csv")
-tree_final1 <- read.csv("../../output/treemap1.csv",header=TRUE,as.is=TRUE)
-airport_location <- read.csv("../../output/airportlocations.csv")
+temp <-  read.csv("../output/temp.csv",header=T)
+raw_data <-  read.csv("../output/flight_data.csv")
+tree_final1 <- read.csv("../output/treemap1.csv",header=TRUE,as.is=TRUE)
+airport_location <- read.csv("../output/airportlocations.csv")
 
 
 # Define server logic required to draw a histogram

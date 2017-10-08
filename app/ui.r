@@ -36,17 +36,17 @@ library(leaflet)
 library(geosphere)
 
 
-source("../../lib/plot_functions.R")
-source("../../lib/filter_data_functions.R")
-source("../../lib/flight_path_map.R")
-source("../../lib/delay_percent_barplot.R")
+source("../lib/plot_functions.R")
+source("../lib/filter_data_functions.R")
+source("../lib/flight_path_map.R")
+source("../lib/delay_percent_barplot.R")
 
 
-raw_data = read.csv("../../output/flight_data.csv")
+raw_data = read.csv("../output/flight_data.csv")
 dest_airport=c('All',as.character(sort(unique(raw_data$dest))))
 orig_airport=c('All',as.character(sort(unique(raw_data$orig))))
 
-temp <-  read.csv("../../output/temp.csv",header=T)
+temp <-  read.csv("../output/temp.csv",header=T)
 origins <- as.character(sort(unique(temp$orig)))
 destinations <- as.character(sort(unique(temp$dest)))
 
