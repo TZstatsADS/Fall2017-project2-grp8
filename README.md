@@ -1,3 +1,14 @@
+Next meeting : Mon 6PM in school 
+
+Han & Peter -- multi-layer R Shiny
+
+Yuchen & Linhan -- R Shiny Map Part
+
+Shiqi -- Prediction
+
+Han & Pete r& Shiqi -- Story
+
+
 # Project 2: Open Data App - an RShiny app development project
 
 ### [Project Description](doc/project2_desc.md)
@@ -19,15 +30,16 @@ The **learning goals** for this project is:
 ## Project Title Lorem ipsum dolor sit amet
 Term: Fall 2017
 
-+ Team #
++ Team 8
 + **Projec title**: + Team members
-	+ team member 1
-	+ team member 2
-	+ team member 3
-	+ team member 4
-	+ team member 5
+	+ team member Shiqi Duan
+	+ team member Christina Huang 
+	+ team member Jingkai Li
+	+ team member Peter Li
+	+ team member Han Lin
 
-+ **Project summary**: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
++ **Project summary**: 
+SD: It is very common to encounter delays when traveling by air. To guarantee the arrival time is not later than the proposed time limit, people can select their carriers according to our treemap plot. We can select the origin and destination airports, the proposed traveling month, and the proposed delay time limit from 0 to 5 hours. Then the Treemap will display the carriers of all the flights satisfying your requirements with the success probability. Here, the success probability is the probability that if you choose certain carrier for your travel from the chosen origin to the chosen destination in the chosen month, then how likely you can arrive at the destination no later than the chosen delay time limit. We believe this app can help you make a smarter choice of carriers.
 
 + **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 

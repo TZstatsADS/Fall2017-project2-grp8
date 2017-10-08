@@ -1,0 +1,163 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+############ Demo ###########
+```{r}
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(plotly)
+```
+
+
+```{r}
+setwd("~/GitHub/Fall2017-project2-grp8/data/flight_data")
+demo_data <- read.csv('2017_07_01.csv',header = T)
+```
+
+```{r}
+demo_data$X <- NULL
+
+demo_data[is.na(demo_data)] <- 0
+demo_data$ARR_DELAY[demo_data$ARR_DELAY<0] <- 0
+length(unique(demo_data$UNIQUE_CARRIER))
+demo_data$month = month(demo_data$FL_DATE, label = T)
+
+demo_data$dest = paste0(demo_data$DEST, " (", demo_data$DEST_CITY_NAME,")")
+demo_data$orig = paste0(demo_data$ORIGIN, " (", demo_data$ORIGIN_CITY_NAME,")")
+demo_data$carrier = demo_data$UNIQUE_CARRIER
+colnames(demo_data)
+demo_data[,c('UNIQUE_CARRIER','ORIGIN','ORIGIN_CITY_NAME','DEST','DEST_CITY_NAME')] <- NULL
+
+grp <- demo_data %>% 
+  group_by(month, carrier, dest, orig) %>%
+  summarise(num_flights = length(month),
+            num_delays = sum(ARR_DELAY > 0),
+            percent_delays = num_delays/num_flights,
+            total_delays = sum(ARR_DELAY),
+            percent_carrier_delay = sum(CARRIER_DELAY)/total_delays*percent_delays,
+            percent_weather_delay = sum(WEATHER_DELAY)/total_delays*percent_delays,
+            percent_NAS_delay = sum(NAS_DELAY)/total_delays*percent_delays,
+            percent_late_aircraft_delay = sum(LATE_AIRCRAFT_DELAY)/total_delays*percent_delays,
+            percent_security_delay = (1-percent_carrier_delay-percent_weather_delay-
+              percent_NAS_delay-percent_late_aircraft_delay)*percent_delays
+            ) %>% 
+  as.data.frame()
+
+
+# barplot <- function(m,d,o){
+#   data <- grp %>% filter(month==m,dest==d,orig==o)
+#   ggplot(data,aes(x=carrier,y=percent_delays))+
+#     geom_bar(stat = 'identity')
+#   
+# }
+# barplot('Jul','LAX (Los Angeles, CA)','BOS (Boston, MA)')
+
+stack_barplot <- function(m,d,o){
+  mm <- grp %>% 
+    filter(month==m,dest==d,orig==o) %>% 
+    select(carrier,percent_carrier_delay,percent_weather_delay,percent_NAS_delay,percent_security_delay,percent_late_aircraft_delay) %>% 
+    #rename(c('carrier','Carrier','Weather','NAS','Security','Late_aircraft')) %>% 
+    melt(id='carrier')
+    #rename(variable = delay_reason)
+  
+  colnames(mm) <- c('carrier','delay_reason','value')
+  
+  ggplot(mm, aes(x = carrier, y = value, fill = delay_reason)) + 
+  geom_bar(stat = "identity")+
+  ylab('delay probability')
+  
+}
+
+stack_barplot('Jul','LAX (Los Angeles, CA)','BOS (Boston, MA)')
+
+
+```
+
+
+
+##  Data preparation ##########
+```{r}
+
+
+prepare_data <- function(data_path, output_file_name){
+  files_set = list.files(path = data_path)
+  combined_data = data.frame()
+
+	for(file in 1:length(files)) {
+		# read in each month of data
+		tmp = read.csv(paste0(data_path,"/",files[file]))
+		# rbind monthly data into one data frame
+	  combined_data = rbind(combined_data,tmp)
+		
+		}
+		
+	combined_data$X <- NULL
+  combined_data[is.na(combined_data)] <- 0
+  combined_data$ARR_DELAY[combined_data$ARR_DELAY<0] <- 0
+  combined_data$month = month(combined_data$FL_DATE, label = T)
+  combined_data$dest = paste0(combined_data$DEST, " (", combined_data$DEST_CITY_NAME,")")
+  combined_data$orig = paste0(combined_data$ORIGIN, " (", combined_data$ORIGIN_CITY_NAME,")")
+  combined_data$carrier = combined_data$UNIQUE_CARRIER
+  combined_data[,c('UNIQUE_CARRIER','ORIGIN','ORIGIN_CITY_NAME','DEST','DEST_CITY_NAME')] <- NULL
+
+	write.csv(combined_data,paste0(output_file_name,".csv"),row.names = F)
+  return(combined_data)
+}
+
+
+# combined <- prepare_data("~/GitHub/Fall2017-project2-grp8/output/flight_2016_17","0816_0717")
+
+```
+
+
+## stacked barplot function #########
+```{r}
+combined <- read.csv("0816_0717.csv")
+
+
+
+stack_barplot <- function(m,d,o){
+  grp <- combined %>% 
+  group_by(month, carrier, dest, orig) %>%
+  summarise(num_flights = length(month),
+            num_delays = sum(ARR_DELAY > 0),
+            percent_delays = num_delays/num_flights,
+            total_delays = sum(ARR_DELAY),
+            percent_carrier_delay = sum(CARRIER_DELAY)/total_delays*percent_delays,
+            percent_weather_delay = sum(WEATHER_DELAY)/total_delays*percent_delays,
+            percent_NAS_delay = sum(NAS_DELAY)/total_delays*percent_delays,
+            percent_late_aircraft_delay = sum(LATE_AIRCRAFT_DELAY)/total_delays*percent_delays,
+            percent_security_delay = (1-percent_carrier_delay-percent_weather_delay-
+              percent_NAS_delay-percent_late_aircraft_delay)*percent_delays
+            ) %>% 
+  as.data.frame()
+  
+  mm <- grp %>% 
+    filter(month==m,dest==d,orig==o) %>% 
+    select(carrier,percent_carrier_delay,percent_weather_delay,percent_NAS_delay,percent_security_delay,percent_late_aircraft_delay) %>% 
+    #rename(c('carrier','Carrier','Weather','NAS','Security','Late_aircraft')) %>% 
+    melt(id='carrier')
+    #rename(variable = delay_reason)
+  
+  colnames(mm) <- c('carrier','delay_reason','value')
+  
+  ggplot(mm, aes(x = carrier, y = value, fill = delay_reason)) + 
+  geom_bar(stat = "identity")+
+  ylab('delay probability')
+  
+}
+
+stack_barplot('Jul','JFK (New York, NY)','BOS (Boston, MA)')
+
+
+```
+
+
+
+
+
+
