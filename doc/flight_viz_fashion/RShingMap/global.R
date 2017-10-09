@@ -6,7 +6,11 @@ library(leaflet)
 library(geosphere)
 library(sparklyr)
 
+<<<<<<< Updated upstream
 flightData <- read.table(file = "../../../data/FlightViz/test.csv",
+=======
+flightData <- read.table(file = "../data/FlightViz/test.csv",
+>>>>>>> Stashed changes
                          as.is = T, header = T,sep = ",")
 flightData <- flightData[,-5]
 flightData$FL_DATE <- strptime(flightData$FL_DATE, "%Y/%m/%d")
