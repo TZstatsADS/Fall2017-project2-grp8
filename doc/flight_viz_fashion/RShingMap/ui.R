@@ -31,13 +31,13 @@ shinyUI(fluidPage(
                   min = min(flightData$FL_DATE),
                   max = max(flightData$FL_DATE),
                   value = min(flightData$FL_DATE),#The initial value
-                  step = 24*3600,
-                  animate = animationOptions(interval = 1))
+                  step = days(),
+                  animate = animationOptions(interval = 200))
     ),
     # Show a tabset that includes a plot, model, and table view
     mainPanel(
       tabsetPanel(type = "tabs", 
-                  tabPanel("Map", leafletOutput("map"))
+                  tabPanel("Map", leafletOutput("m_dynamic"))
       )
     )
   )
