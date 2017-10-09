@@ -173,24 +173,108 @@ $(document).ready(function () {
 
 <!-- rnb-text-begin -->
 <p>This is data cleaning part of Map&amp;Timeline visualization.</p>
+<div id="airport-location" class="section level2">
+<h2>Airport location</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWlycG9ydExvY2F0aW9uIDwtIHJlYWQudGFibGUoZmlsZSA9IFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovYWlycG9ydF9sb2NhdGlvbi5jc3ZcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFzLmlzID0gVCwgaGVhZGVyID0gVCxzZXAgPSBcIixcIilcbmFpcnBvcnRMb2NhdGlvbiA8LSBhaXJwb3J0TG9jYXRpb25bIWR1cGxpY2F0ZWQoYWlycG9ydExvY2F0aW9uJElBVEEpLF1cbnJvd25hbWVzKGFpcnBvcnRMb2NhdGlvbikgPC0gYWlycG9ydExvY2F0aW9uJElBVEFcbmFpcnBvcnRMb2NhdGlvbiA8LSBhaXJwb3J0TG9jYXRpb25bLC0xXVxuY29sbmFtZXMoYWlycG9ydExvY2F0aW9uKSA8LSBjKFwiTE9OXCIsIFwiTEFUXCIpXG5haXJwb3J0TG9jYXRpb24gPC0gbmEub21pdChhaXJwb3J0TG9jYXRpb24pXG5gYGAifQ== -->
-<pre class="r"><code>airportLocation &lt;- read.table(file = &quot;../../../data/FlightViz/airport_location.csv&quot;,
-                              as.is = T, header = T,sep = &quot;,&quot;)
-airportLocation &lt;- airportLocation[!duplicated(airportLocation$IATA),]
-rownames(airportLocation) &lt;- airportLocation$IATA
-airportLocation &lt;- airportLocation[,-1]
-colnames(airportLocation) &lt;- c(&quot;LON&quot;, &quot;LAT&quot;)
-airportLocation &lt;- na.omit(airportLocation)</code></pre>
-<!-- rnb-source-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBge3J9XG5cbmBgYCJ9 -->
+<p><code>r</code>{r}</p>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoi6ZSZ6K+vOiDkuI3og73nlKjpm7bplb/luqblj5jmlbDlkI1cbiJ9 --&gt;
+</code></pre>
+<p>错误: 不能用零长度变数名 ```</p>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>allPairs<span class="math inline">\(ORIGIN_Lon &lt;- airportLocation[allPairs[,1],1]  allPairs\)</span>ORIGIN_Lat &lt;- airportLocation[allPairs[,1],2] allPairs<span class="math inline">\(DEST_Lon &lt;- airportLocation[allPairs[,2],1]  allPairs\)</span>DEST_Lat &lt;- airportLocation[allPairs[,2],2] allPairs &lt;- na.omit(allPairs)</p>
-<p>```</p>
+</div>
+<div id="reading-flight-data-calculate-mean-delay-time" class="section level2">
+<h2>Reading Flight Data &amp; Calculate Mean Delay Time</h2>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaSA9IDIwMTBcbmZvcihqIGluIGMoMToxMikpe1xuICAgIGlmKGogPCAxMCl7IGogPSBwYXN0ZShcIjBcIiwgaiwgc2VwID0gXCJcIil9XG4gICAgZmlsZW5hbWVJbiA8LSBwYXN0ZShcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6L1wiLCBpLCBcIi9cIiwgaSwgaixcIi5jc3ZcIiwgc2VwID0gXCJcIilcbiAgICBmbGlnaHREYXRhIDwtIHJlYWQudGFibGUoZmlsZSA9IGZpbGVuYW1lSW4sIGFzLmlzID0gVCwgaGVhZGVyID0gVCxzZXAgPSBcIixcIilcbiAgICBmbGlnaHREYXRhIDwtIGZsaWdodERhdGFbLCBjKDEsIDIsIDMsIDQpXVxuICAgIGZsaWdodERhdGEgPC0gZmxpZ2h0RGF0YSU+JVxuICAgICAgZ3JvdXBfYnkoRkxfREFURSwgT1JJR0lOLCBERVNUKSAlPiVcbiAgICAgIHN1bW1hcmlzZShtZWFuRGVsYXk9KG1lYW4oREVQX0RFTEFZX05FVykpKVxuICAgIGZsaWdodERhdGEgPC0gbmEub21pdChmbGlnaHREYXRhKVxuICAgIFxuICAgIGZpbGVuYW1lT3V0IDwtIHBhc3RlKFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovXCIsIGksIFwib3V0L1wiLCBpLCBqLFwib3V0LmNzdlwiLCBzZXAgPSBcIlwiKVxuICAgIHdyaXRlLnRhYmxlKGZsaWdodERhdGEsIGZpbGUgPSBmaWxlbmFtZU91dCxcbiAgICAgICAgICAgICAgICBjb2wubmFtZXMgPSBULCBzZXAgPSBcIixcIilcbiAgICBwcmludChwYXN0ZShmaWxlbmFtZU91dCwgXCJkb25lXCIpKVxufVxuYGBgIn0= -->
+<pre class="r"><code>i = 2010
+for(j in c(1:12)){
+    if(j &lt; 10){ j = paste(&quot;0&quot;, j, sep = &quot;&quot;)}
+    filenameIn &lt;- paste(&quot;../../../data/FlightViz/&quot;, i, &quot;/&quot;, i, j,&quot;.csv&quot;, sep = &quot;&quot;)
+    flightData &lt;- read.table(file = filenameIn, as.is = T, header = T,sep = &quot;,&quot;)
+    flightData &lt;- flightData[, c(1, 2, 3, 4)]
+    flightData &lt;- flightData%&gt;%
+      group_by(FL_DATE, ORIGIN, DEST) %&gt;%
+      summarise(meanDelay=(mean(DEP_DELAY_NEW)))
+    flightData &lt;- na.omit(flightData)
+    
+    filenameOut &lt;- paste(&quot;../../../data/FlightViz/&quot;, i, &quot;out/&quot;, i, j,&quot;out.csv&quot;, sep = &quot;&quot;)
+    write.table(flightData, file = filenameOut,
+                col.names = T, sep = &quot;,&quot;)
+    print(paste(filenameOut, &quot;done&quot;))
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDFvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDJvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDNvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDRvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDVvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDZvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDdvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDhvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMDlvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMTBvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMTFvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMjAxMG91dC8yMDEwMTJvdXQuY3N2IGRvbmVcIlxuIn0= -->
+<pre><code>[1] &quot;../../../data/FlightViz/2010out/201001out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201002out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201003out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201004out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201005out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201006out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201007out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201008out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201009out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201010out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201011out.csv done&quot;
+[1] &quot;../../../data/FlightViz/2010out/201012out.csv done&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="add-airport-location-in-each-data-row---final-output" class="section level2">
+<h2>Add Airport Location in Each Data Row - final output</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaSA9IDE5OTBcbmZvcihqIGluIGMoMToxMikpe1xuICAgIGlmKGogPCAxMCl7IGogPSBwYXN0ZShcIjBcIiwgaiwgc2VwID0gXCJcIil9XG4gICAgZmlsZW5hbWVJbiA8LSBwYXN0ZShcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6L1wiLCBpLCBcIm91dC9cIiwgaSwgaixcIm91dC5jc3ZcIiwgc2VwID0gXCJcIilcbiAgICBmbGlnaHREYXRhIDwtIHJlYWQudGFibGUoZmlsZSA9IGZpbGVuYW1lSW4sXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFzLmlzID0gVCwgaGVhZGVyID0gVCxzZXAgPSBcIixcIilcbiAgICAjZmxpZ2h0RGF0YSRGTF9EQVRFIDwtIHBhcnNlX2RhdGVfdGltZShmbGlnaHREYXRhJEZMX0RBVEUsIFwiJVktJW0tJWRcIilcbiAgICBcbiAgICBhbGxQYWlycyA8LSBmbGlnaHREYXRhXG4gICAgYWxsUGFpcnMkT1JJR0lOX0xvbiA8LSBhaXJwb3J0TG9jYXRpb25bYWxsUGFpcnNbLDJdLDFdXG4gICAgYWxsUGFpcnMkT1JJR0lOX0xhdCA8LSBhaXJwb3J0TG9jYXRpb25bYWxsUGFpcnNbLDJdLDJdXG4gICAgYWxsUGFpcnMkREVTVF9Mb24gPC0gYWlycG9ydExvY2F0aW9uW2FsbFBhaXJzWywzXSwxXVxuICAgIGFsbFBhaXJzJERFU1RfTGF0IDwtIGFpcnBvcnRMb2NhdGlvblthbGxQYWlyc1ssM10sMl1cbiAgICBhbGxQYWlycyA8LSBuYS5vbWl0KGFsbFBhaXJzKVxuICAgIFxuICAgIGZpbGVuYW1lT3V0IDwtIHBhc3RlKFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovXCIsIGksIFwiRm91dC9cIiwgaSwgaixcIkZvdXQuY3N2XCIsIHNlcCA9IFwiXCIpXG4gICAgd3JpdGUudGFibGUoYWxsUGFpcnMsIGZpbGUgPSBmaWxlbmFtZU91dCxcbiAgICAgICAgICAgICAgICBjb2wubmFtZXMgPSBULCBzZXAgPSBcIixcIilcbiAgICBwcmludChwYXN0ZShmaWxlbmFtZU91dCwgXCJkb25lXCIpKVxufVxuYGBgIn0= -->
+<pre class="r"><code>i = 1990
+for(j in c(1:12)){
+    if(j &lt; 10){ j = paste(&quot;0&quot;, j, sep = &quot;&quot;)}
+    filenameIn &lt;- paste(&quot;../../../data/FlightViz/&quot;, i, &quot;out/&quot;, i, j,&quot;out.csv&quot;, sep = &quot;&quot;)
+    flightData &lt;- read.table(file = filenameIn,
+                             as.is = T, header = T,sep = &quot;,&quot;)
+    #flightData$FL_DATE &lt;- parse_date_time(flightData$FL_DATE, &quot;%Y-%m-%d&quot;)
+    
+    allPairs &lt;- flightData
+    allPairs$ORIGIN_Lon &lt;- airportLocation[allPairs[,2],1]
+    allPairs$ORIGIN_Lat &lt;- airportLocation[allPairs[,2],2]
+    allPairs$DEST_Lon &lt;- airportLocation[allPairs[,3],1]
+    allPairs$DEST_Lat &lt;- airportLocation[allPairs[,3],2]
+    allPairs &lt;- na.omit(allPairs)
+    
+    filenameOut &lt;- paste(&quot;../../../data/FlightViz/&quot;, i, &quot;Fout/&quot;, i, j,&quot;Fout.csv&quot;, sep = &quot;&quot;)
+    write.table(allPairs, file = filenameOut,
+                col.names = T, sep = &quot;,&quot;)
+    print(paste(filenameOut, &quot;done&quot;))
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMTk5MEZvdXQvMTk5MDAxRm91dC5jc3YgZG9uZVwiXG5bMV0gXCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8xOTkwRm91dC8xOTkwMDJGb3V0LmNzdiBkb25lXCJcblsxXSBcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LzE5OTBGb3V0LzE5OTAwM0ZvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMTk5MEZvdXQvMTk5MDA0Rm91dC5jc3YgZG9uZVwiXG5bMV0gXCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8xOTkwRm91dC8xOTkwMDVGb3V0LmNzdiBkb25lXCJcblsxXSBcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LzE5OTBGb3V0LzE5OTAwNkZvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMTk5MEZvdXQvMTk5MDA3Rm91dC5jc3YgZG9uZVwiXG5bMV0gXCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8xOTkwRm91dC8xOTkwMDhGb3V0LmNzdiBkb25lXCJcblsxXSBcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LzE5OTBGb3V0LzE5OTAwOUZvdXQuY3N2IGRvbmVcIlxuWzFdIFwiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovMTk5MEZvdXQvMTk5MDEwRm91dC5jc3YgZG9uZVwiXG5bMV0gXCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8xOTkwRm91dC8xOTkwMTFGb3V0LmNzdiBkb25lXCJcblsxXSBcIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LzE5OTBGb3V0LzE5OTAxMkZvdXQuY3N2IGRvbmVcIlxuIn0= -->
+<pre><code>[1] &quot;../../../data/FlightViz/1990Fout/199001Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199002Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199003Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199004Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199005Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199006Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199007Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199008Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199009Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199010Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199011Fout.csv done&quot;
+[1] &quot;../../../data/FlightViz/1990Fout/199012Fout.csv done&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICAgIFxuYGBgIn0= -->
+<pre class="r"><code>    </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBDbGVhbmluZyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQpUaGlzIGlzIGRhdGEgY2xlYW5pbmcgcGFydCBvZiBNYXAmVGltZWxpbmUgdmlzdWFsaXphdGlvbi4KCmBgYHtyOiByZWFkIGxvY2F0aW9uIG9mIGFpcnBvcnRzfQphaXJwb3J0TG9jYXRpb24gPC0gcmVhZC50YWJsZShmaWxlID0gIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6L2FpcnBvcnRfbG9jYXRpb24uY3N2IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXMuaXMgPSBULCBoZWFkZXIgPSBULHNlcCA9ICIsIikKYWlycG9ydExvY2F0aW9uIDwtIGFpcnBvcnRMb2NhdGlvblshZHVwbGljYXRlZChhaXJwb3J0TG9jYXRpb24kSUFUQSksXQpyb3duYW1lcyhhaXJwb3J0TG9jYXRpb24pIDwtIGFpcnBvcnRMb2NhdGlvbiRJQVRBCmFpcnBvcnRMb2NhdGlvbiA8LSBhaXJwb3J0TG9jYXRpb25bLC0xXQpjb2xuYW1lcyhhaXJwb3J0TG9jYXRpb24pIDwtIGMoIkxPTiIsICJMQVQiKQphaXJwb3J0TG9jYXRpb24gPC0gbmEub21pdChhaXJwb3J0TG9jYXRpb24pCmBgYAoKCgoKYWxsUGFpcnMkT1JJR0lOX0xvbiA8LSBhaXJwb3J0TG9jYXRpb25bYWxsUGFpcnNbLDFdLDFdCiAgICBhbGxQYWlycyRPUklHSU5fTGF0IDwtIGFpcnBvcnRMb2NhdGlvblthbGxQYWlyc1ssMV0sMl0KICAgIGFsbFBhaXJzJERFU1RfTG9uIDwtIGFpcnBvcnRMb2NhdGlvblthbGxQYWlyc1ssMl0sMV0KICAgIGFsbFBhaXJzJERFU1RfTGF0IDwtIGFpcnBvcnRMb2NhdGlvblthbGxQYWlyc1ssMl0sMl0KICAgIGFsbFBhaXJzIDwtIG5hLm9taXQoYWxsUGFpcnMpCiAgICAKYGBgCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBDbGVhbmluZyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQpUaGlzIGlzIGRhdGEgY2xlYW5pbmcgcGFydCBvZiBNYXAmVGltZWxpbmUgdmlzdWFsaXphdGlvbi4KCiMjIEFpcnBvcnQgbG9jYXRpb24KYGBge3J9CmFpcnBvcnRMb2NhdGlvbiA8LSByZWFkLnRhYmxlKGZpbGUgPSAiLi4vLi4vLi4vZGF0YS9GbGlnaHRWaXovYWlycG9ydF9sb2NhdGlvbi5jc3YiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhcy5pcyA9IFQsIGhlYWRlciA9IFQsc2VwID0gIiwiKQphaXJwb3J0TG9jYXRpb24gPC0gYWlycG9ydExvY2F0aW9uWyFkdXBsaWNhdGVkKGFpcnBvcnRMb2NhdGlvbiRJQVRBKSxdCnJvd25hbWVzKGFpcnBvcnRMb2NhdGlvbikgPC0gYWlycG9ydExvY2F0aW9uJElBVEEKYWlycG9ydExvY2F0aW9uIDwtIGFpcnBvcnRMb2NhdGlvblssLTFdCmNvbG5hbWVzKGFpcnBvcnRMb2NhdGlvbikgPC0gYygiTE9OIiwgIkxBVCIpCmFpcnBvcnRMb2NhdGlvbiA8LSBuYS5vbWl0KGFpcnBvcnRMb2NhdGlvbikKYGBgCgojIyBSZWFkaW5nIEZsaWdodCBEYXRhICYgQ2FsY3VsYXRlIE1lYW4gRGVsYXkgVGltZQpgYGB7cn0KaSA9IDIwMTAKZm9yKGogaW4gYygxOjEyKSl7CiAgICBpZihqIDwgMTApeyBqID0gcGFzdGUoIjAiLCBqLCBzZXAgPSAiIil9CiAgICBmaWxlbmFtZUluIDwtIHBhc3RlKCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8iLCBpLCAiLyIsIGksIGosIi5jc3YiLCBzZXAgPSAiIikKICAgIGZsaWdodERhdGEgPC0gcmVhZC50YWJsZShmaWxlID0gZmlsZW5hbWVJbiwgYXMuaXMgPSBULCBoZWFkZXIgPSBULHNlcCA9ICIsIikKICAgIGZsaWdodERhdGEgPC0gZmxpZ2h0RGF0YVssIGMoMSwgMiwgMywgNCldCiAgICBmbGlnaHREYXRhIDwtIGZsaWdodERhdGElPiUKICAgICAgZ3JvdXBfYnkoRkxfREFURSwgT1JJR0lOLCBERVNUKSAlPiUKICAgICAgc3VtbWFyaXNlKG1lYW5EZWxheT0obWVhbihERVBfREVMQVlfTkVXKSkpCiAgICBmbGlnaHREYXRhIDwtIG5hLm9taXQoZmxpZ2h0RGF0YSkKICAgIAogICAgZmlsZW5hbWVPdXQgPC0gcGFzdGUoIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LyIsIGksICJvdXQvIiwgaSwgaiwib3V0LmNzdiIsIHNlcCA9ICIiKQogICAgd3JpdGUudGFibGUoZmxpZ2h0RGF0YSwgZmlsZSA9IGZpbGVuYW1lT3V0LAogICAgICAgICAgICAgICAgY29sLm5hbWVzID0gVCwgc2VwID0gIiwiKQogICAgcHJpbnQocGFzdGUoZmlsZW5hbWVPdXQsICJkb25lIikpCn0KYGBgCgoKIyMgQWRkIEFpcnBvcnQgTG9jYXRpb24gaW4gRWFjaCBEYXRhIFJvdyAtIGZpbmFsIG91dHB1dApgYGB7cn0KaSA9IDE5OTAKZm9yKGogaW4gYygxOjEyKSl7CiAgICBpZihqIDwgMTApeyBqID0gcGFzdGUoIjAiLCBqLCBzZXAgPSAiIil9CiAgICBmaWxlbmFtZUluIDwtIHBhc3RlKCIuLi8uLi8uLi9kYXRhL0ZsaWdodFZpei8iLCBpLCAib3V0LyIsIGksIGosIm91dC5jc3YiLCBzZXAgPSAiIikKICAgIGZsaWdodERhdGEgPC0gcmVhZC50YWJsZShmaWxlID0gZmlsZW5hbWVJbiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhcy5pcyA9IFQsIGhlYWRlciA9IFQsc2VwID0gIiwiKQogICAgI2ZsaWdodERhdGEkRkxfREFURSA8LSBwYXJzZV9kYXRlX3RpbWUoZmxpZ2h0RGF0YSRGTF9EQVRFLCAiJVktJW0tJWQiKQogICAgCiAgICBhbGxQYWlycyA8LSBmbGlnaHREYXRhCiAgICBhbGxQYWlycyRPUklHSU5fTG9uIDwtIGFpcnBvcnRMb2NhdGlvblthbGxQYWlyc1ssMl0sMV0KICAgIGFsbFBhaXJzJE9SSUdJTl9MYXQgPC0gYWlycG9ydExvY2F0aW9uW2FsbFBhaXJzWywyXSwyXQogICAgYWxsUGFpcnMkREVTVF9Mb24gPC0gYWlycG9ydExvY2F0aW9uW2FsbFBhaXJzWywzXSwxXQogICAgYWxsUGFpcnMkREVTVF9MYXQgPC0gYWlycG9ydExvY2F0aW9uW2FsbFBhaXJzWywzXSwyXQogICAgYWxsUGFpcnMgPC0gbmEub21pdChhbGxQYWlycykKICAgIAogICAgZmlsZW5hbWVPdXQgPC0gcGFzdGUoIi4uLy4uLy4uL2RhdGEvRmxpZ2h0Vml6LyIsIGksICJGb3V0LyIsIGksIGosIkZvdXQuY3N2Iiwgc2VwID0gIiIpCiAgICB3cml0ZS50YWJsZShhbGxQYWlycywgZmlsZSA9IGZpbGVuYW1lT3V0LAogICAgICAgICAgICAgICAgY29sLm5hbWVzID0gVCwgc2VwID0gIiwiKQogICAgcHJpbnQocGFzdGUoZmlsZW5hbWVPdXQsICJkb25lIikpCn0KICAgIApgYGAK</div>
 
 
 

@@ -32,17 +32,15 @@ library(lubridate)
 ###======== code ========
 ##========= data cleaning part =========
 
-#flightData <- read.table(file = "../../../data/FlightViz/test.csv",
-#                         as.is = T, header = T,sep = ",")
-#flightData <- flightData[,-5]
-#flightData$FL_DATE <- strptime(flightData$FL_DATE, "%Y/%m/%d")
-
-#airportLocation <- read.table(file = "../../../data/FlightViz/test-address.csv",
-#                              as.is = T, header = T,sep = ",")
-#airportLocation <- airportLocation[,-3]
-#colnames(airportLocation) <- c("LON", "LAT")
 
 
+airportLocation <- read.table(file = "../../../data/FlightViz/airport_location.csv",
+                              as.is = T, header = T,sep = ",")
+airportLocation <- airportLocation[!duplicated(airportLocation$IATA),]
+rownames(airportLocation) <- airportLocation$IATA
+airportLocation <- airportLocation[,-1]
+colnames(airportLocation) <- c("LON", "LAT")
+airportLocation <- na.omit(airportLocation)
 
 
 
@@ -61,10 +59,4 @@ flightData$FL_DATE <- parse_date_time(flightData$FL_DATE, "%Y-%m-%d")
 
 
 
-airportLocation <- read.table(file = "../../../data/FlightViz/airport_location.csv",
-                              as.is = T, header = T,sep = ",")
-airportLocation <- airportLocation[!duplicated(airportLocation$IATA),]
-rownames(airportLocation) <- airportLocation$IATA
-airportLocation <- airportLocation[,-1]
-colnames(airportLocation) <- c("LON", "LAT")
-airportLocation <- na.omit(airportLocation)
+
