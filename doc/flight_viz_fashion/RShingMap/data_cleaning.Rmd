@@ -1,0 +1,26 @@
+---
+title: "Data Cleaning"
+output: html_notebook
+---
+This is data cleaning part of Map&Timeline visualization.
+
+```{r: read location of airports}
+airportLocation <- read.table(file = "../../../data/FlightViz/airport_location.csv",
+                              as.is = T, header = T,sep = ",")
+airportLocation <- airportLocation[!duplicated(airportLocation$IATA),]
+rownames(airportLocation) <- airportLocation$IATA
+airportLocation <- airportLocation[,-1]
+colnames(airportLocation) <- c("LON", "LAT")
+airportLocation <- na.omit(airportLocation)
+```
+
+
+
+
+allPairs$ORIGIN_Lon <- airportLocation[allPairs[,1],1]
+    allPairs$ORIGIN_Lat <- airportLocation[allPairs[,1],2]
+    allPairs$DEST_Lon <- airportLocation[allPairs[,2],1]
+    allPairs$DEST_Lat <- airportLocation[allPairs[,2],2]
+    allPairs <- na.omit(allPairs)
+    
+```
