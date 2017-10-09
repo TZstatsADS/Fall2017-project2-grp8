@@ -65,6 +65,28 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                  # titlePanel(h2("Introduction")),
                  # mainPanel(tabPanel("Introduction"))
         ),
+        tabPanel("Dynamic Map of Flights 1990 VS 2010",
+                 tabName="Dynamic Map",
+                 icon=icon("book"),
+
+                 sidebarLayout(
+                   sidebarPanel(
+                     sliderInput(inputId ="range",
+                                 label = "Time of data collection:",
+                                 min = min(flightData$FL_DATE),
+                                 max = max(flightData$FL_DATE),
+                                 value = min(flightData$FL_DATE),#The initial value
+                                 step = days(),
+                                 animate = animationOptions(interval = 200))
+                   ),
+                   # Show a tabset that includes a plot, model, and table view
+                   mainPanel(
+                     tabsetPanel(type = "tabs", 
+                                 tabPanel("Map", leafletOutput("m_dynamic"))
+                     )
+                   )
+                 )
+        ),
         tabPanel('Search you flight',
                  tabName='Search your flight',
                  icon=icon('plane'),

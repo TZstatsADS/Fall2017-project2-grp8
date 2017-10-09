@@ -48,7 +48,45 @@ shinyServer(function(input, output) {
   output$plt_delay_reason_distr = renderPlotly(plot_delay_reason_distribution(filtered_data=filtered_data_delay_reason(),
                                                                               origin=input$origin2,
                                                                               destination=input$destination2,
-                                                                              month=input$month2))
+                                                                              month = input$month2))
+           
+                                                                              
+  #========== DINAMIC MAP PART ==========                                                                                                                                               month=input$month2))
+  # Identify origin and destination
+  allPairs <- reactive({
+    subset(flightData, FL_DATE == input$range)%>%
+      select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
+  })
   
+  flightLines <- reactive({
+    gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
+                   allPairs()[,c("DEST_Lon", "DEST_Lat")], 
+                   n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
+    
+    #inters <- character(0)
+    #for(i in 1:nrow(allPairs)){
+    #  inter <- gcIntermediate(airportLocation[allPairs[i,1],], 
+    #                          airportLocation[allPairs[i,2],],
+    #                          n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
+    #  inters <- c(inters, inter)
+    #}
+    #ll0 <- lapply( inters , function(x) `@`(x , "lines") )
+    #ll1 <- lapply( unlist( ll0 ) , function(y) `@`(y,"Lines") )
+    #SpatialLines( list( Lines( unlist( ll1 ) , ID = 1) ) )
+  })
+
+  # Output the route map  
+  output$m_dynamic <- renderLeaflet({
+    leaflet() %>% 
+      addTiles() %>% 
+      setView(lng = -95.7129, lat = 37.0902, zoom = 4)
+  })  
+  
+  observe({
+    leafletProxy("m_dynamic") %>%
+      clearShapes()%>%
+      addPolylines(group = "flights", data = flightLines(),
+                   color = "blue", weight=1)
+  })
  
 })
