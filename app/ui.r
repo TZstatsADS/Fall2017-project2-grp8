@@ -65,18 +65,24 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                    sidebarPanel(
                 
                      selectInput(inputId = "origin",
-                                 label  = "Select the Origin",
+                                 label  = "Select the origin",
                                  choices = origins,
                                              selected ='JFK (New York, NY)'),
                      selectInput(inputId = "destination",
-                                 label  = "Select the Destination",
+                                 label  = "Select the destination",
                                  choices = c('all',destinations),
                                  selected ='all'),
                      selectInput(inputId = "month",
-                                 label  = "Select the Month",
+                                 label  = "Select the month",
                                  choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
                                              'Aug','Sep','Oct','Nov','Dec'),
                                  selected ='Jul'),
+                     radioButtons(inputId = "week", 
+                                  label = "Select day of the week",
+                                  choices = c('all','Monday','Tuesday','Wednesday','Thursday',
+                                              'Friday','Saturday','Sunday'), 
+                                  selected = 'all'),
+                     
                      radioButtons(inputId = "type",
                                   label = 'Calculated by:',
                                   choices = c('Percent of delay flights',
@@ -96,57 +102,110 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                                    
                    )
                  ),
+        # 
+        # tabPanel('Delay Time Expectation',
+        #          sidebarLayout(
+        #            sidebarPanel(
+        #              
+        #              selectInput(inputId = "destination1",
+        #                          label  = "Select the Destination",
+        #                          choices = dest_airport,
+        #                          selected ='All'),
+        #              selectInput(inputId = "origin1",
+        #                          label  = "Select the Origin",
+        #                          choices = orig_airport,
+        #                          selected ='All'),
+        #              width = 3
+        #            ),
+        #            
+        #            mainPanel(
+        #              box(plotlyOutput("plt_delay_time"),width=300),
+        #              box(plotlyOutput("plt_delay_flight_distr"),width=300),
+        #              box(plotlyOutput("plt_delay_time_distr"),width=300)
+        #              )
+        #         )
+        # ),
+        # 
+        # tabPanel('Delay Reason Expectation',
+        #          sidebarLayout(
+        #            sidebarPanel(
+        #              
+        #              selectInput(inputId = "destination2",
+        #                          label  = "Select the Destination",
+        #                          choices = dest_airport,
+        #                          selected ='All'),
+        #              selectInput(inputId = "origin2",
+        #                          label  = "Select the Origin",
+        #                          choices = orig_airport,
+        #                          selected ='All'),
+        #              selectInput(inputId = "month2",
+        #                          label  = "Select the Month",
+        #                          choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+        #                                      'Aug','Sep','Oct','Nov','Dec'),
+        #                          selected ='Jan'),
+        #              width = 3
+        #            ),
+        #            
+        #            mainPanel(
+        #              box(plotlyOutput("plt_delay_reason_distr"),width=300)
+        #              )
+        #            )
+        #          ),
         
-        tabPanel('Delay Time Expectation',
-                 sidebarLayout(
-                   sidebarPanel(
-                     
-                     selectInput(inputId = "destination1",
-                                 label  = "Select the Destination",
-                                 choices = dest_airport,
-                                 selected ='All'),
-                     selectInput(inputId = "origin1",
-                                 label  = "Select the Origin",
-                                 choices = orig_airport,
-                                 selected ='All'),
-                     width = 3
-                   ),
-                   
-                   mainPanel(
-                     box(plotlyOutput("plt_delay_time"),width=300),
-                     box(plotlyOutput("plt_delay_flight_distr"),width=300),
-                     box(plotlyOutput("plt_delay_time_distr"),width=300)
-                     )
-                )
-        ),
-        
-        tabPanel('Delay Reason Expectation',
-                 sidebarLayout(
-                   sidebarPanel(
-                     
-                     selectInput(inputId = "destination2",
-                                 label  = "Select the Destination",
-                                 choices = dest_airport,
-                                 selected ='All'),
-                     selectInput(inputId = "origin2",
-                                 label  = "Select the Origin",
-                                 choices = orig_airport,
-                                 selected ='All'),
-                     selectInput(inputId = "month2",
-                                 label  = "Select the Month",
-                                 choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
-                                             'Aug','Sep','Oct','Nov','Dec'),
-                                 selected ='Jan'),
-                     width = 3
-                   ),
-                   
-                   mainPanel(
-                     box(plotlyOutput("plt_delay_reason_distr"),width=300)
-                     )
-                   )
+        tabPanel('Statistics',
+                 tabsetPanel(type="pill",
+                             tabPanel('Delay Time Expectation',
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          
+                                          selectInput(inputId = "destination1",
+                                                      label  = "Select the Destination",
+                                                      choices = dest_airport,
+                                                      selected ='All'),
+                                          selectInput(inputId = "origin1",
+                                                      label  = "Select the Origin",
+                                                      choices = orig_airport,
+                                                      selected ='All'),
+                                          width = 3
+                                        ),
+                                        
+                                        mainPanel(
+                                          box(plotlyOutput("plt_delay_time"),width=300),
+                                          box(plotlyOutput("plt_delay_flight_distr"),width=300),
+                                          box(plotlyOutput("plt_delay_time_distr"),width=300)
+                                        )
+                                      )
+                                      
+                             ),
+                             tabPanel('Delay Reason',
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          
+                                          selectInput(inputId = "destination2",
+                                                      label  = "Select the Destination",
+                                                      choices = dest_airport,
+                                                      selected ='All'),
+                                          selectInput(inputId = "origin2",
+                                                      label  = "Select the Origin",
+                                                      choices = orig_airport,
+                                                      selected ='All'),
+                                          selectInput(inputId = "month2",
+                                                      label  = "Select the Month",
+                                                      choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
+                                                                  'Aug','Sep','Oct','Nov','Dec'),
+                                                      selected ='Jan'),
+                                          width = 3
+                                        ),
+                                        
+                                        mainPanel(
+                                          box(plotlyOutput("plt_delay_reason_distr"),width=300)
+                                        )
+                                      )
+                                      
+                             )
+                             
+                 )
                  ),
-        
-        tabPanel('Statistics'),
         tabPanel('About Us',
                  includeMarkdown('contact.md'))
         )

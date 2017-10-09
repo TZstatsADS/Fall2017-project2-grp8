@@ -4,14 +4,15 @@ We are Columbia University students at Department of Statistics.
 
 Team members and email address are as follows:
 
-Han Lin
+Christina Huang (yh2859@columbia.edu)
 
-Jingkai Li
+Han Lin (hl3006@columbia.edu)
 
-Shiqi Duan
+Jingkai Li (jl4756@columbia.edu)
 
-Yuchen Huang
+Shiqi Duan (sd3072@columbia.edu)
 
-Peter Li
+
+Peter Li (pwl2107@columbia.edu)
 
 
