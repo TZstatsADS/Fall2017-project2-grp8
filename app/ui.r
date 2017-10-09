@@ -10,7 +10,8 @@ packages.used <-
     "treemap",
     "plotly",
     "leaflet",
-    "geosphere"
+    "geosphere",
+    "shinydashboard"
   )
 
 # check packages that need to be installed.

@@ -13,18 +13,17 @@ library(shiny)
 shinyServer <- function(input, output) {
   
   # Identify origin and destination
+  allPairs <- reactive({
+      subset(flightData, FL_DATE == input$range)%>%
+      select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
+  })
+    
   flightLines <- reactive({
-    
-    allPairs <- subset(flightData, FL_DATE == input$range)%>%
-      select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat)
-    
-    
-    inters <- character(0)
-    
-    gcIntermediate(allPairs[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
-                   allPairs[,c("DEST_Lon", "DEST_Lat")], 
+    gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
+                   allPairs()[,c("DEST_Lon", "DEST_Lat")], 
                     n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
-
+    
+    #inters <- character(0)
     #for(i in 1:nrow(allPairs)){
     #  inter <- gcIntermediate(airportLocation[allPairs[i,1],], 
     #                          airportLocation[allPairs[i,2],],
@@ -36,14 +35,13 @@ shinyServer <- function(input, output) {
     #SpatialLines( list( Lines( unlist( ll1 ) , ID = 1) ) )
   })
   
+  
 
   
   # Output the route map  
   output$m_dynamic <- renderLeaflet({
     leaflet() %>% 
-      #clearShapes()%>%
       addTiles() %>% 
-      #addPolylines(flightLines(), color = 'blue', weight=0.1) %>%
       setView(lng = -95.7129, lat = 37.0902, zoom = 4)
   })  
   
@@ -51,7 +49,7 @@ shinyServer <- function(input, output) {
     leafletProxy("m_dynamic") %>%
       clearShapes()%>%
       addPolylines(group = "flights", data = flightLines(),
-                   color = factor(flightData$meanDelay), weight=1)
+                   color = allPairs()$meanDelay, weight=1)
   })
   
 }
