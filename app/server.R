@@ -25,6 +25,7 @@ shinyServer(function(input, output) {
   #   })
   # }
   
+  #if(nrow(temp %>% filter(m=input$month,w=input$week,d=input$destination,o=input$origin)))
   output$delay_barplot <- renderPlotly({delay_barplot(temp,t=input$type,m=input$month,w=input$week,d=input$destination,o=input$origin)})
    
   filtered_data = reactive({filter_data(raw_data,origin=input$origin1,destination=input$destination1)})

@@ -33,6 +33,8 @@ delay_percent_barplot <- function(data,m,w,o,d){
     
   }
   
+  airline_name <- df$carrier[df$percent_delays==min(df$percent_delays)]
+  
   # mm <- data %>% 
   #   filter(month==m,dest==d,orig==o) %>% 
   #   select(carrier,percent_delays)
@@ -46,7 +48,8 @@ delay_percent_barplot <- function(data,m,w,o,d){
     #coord_flip()+
     #scale_y_reverse()+
     #scale_x_discrete(position = "top") +
-    ggtitle(paste('We recommend taking',df$carrier[which.min(df$percent_delays)],'!'))+
+    ggtitle(paste('We recommend taking',paste(airline_name,collapse = ' and '),'!'))+
+    #df$carrier[which.min(df$percent_delays)]
     theme_classic()+
     theme(plot.title = element_text(size = 20, face = "bold"))
     
@@ -81,6 +84,8 @@ delay_time_barplot <- function(data,m,w,o,d){
     
   }
   
+  airline_name <- df$carrier[df$delay_time_ave==min(df$delay_time_ave)]
+  
   # mm <- data %>% 
   #   filter(month==m,dest==d,orig==o) %>% 
   #   select(carrier,percent_delays)
@@ -94,7 +99,8 @@ delay_time_barplot <- function(data,m,w,o,d){
     #coord_flip()+
     #scale_y_reverse()+
     #scale_x_discrete(position = "top") +
-    ggtitle(paste('We recommend taking',df$carrier[which.min(df$delay_time_ave)],'!'))+
+    ggtitle(paste('We recommend taking',paste(airline_name,collapse = ' and '),'!'))+
+    #df$carrier[which.min(df$delay_time_ave)]
     theme_classic()+
     theme(plot.title = element_text(size = 20, face = "bold"))
   

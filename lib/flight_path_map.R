@@ -37,6 +37,7 @@ flight_path <- function(data,m,w,o,d){
       df <- filter(data,month==m,weekday==w,orig==o)
     }
     
+   
     
     leaflet() %>%
       setView(lng = -95.7129, lat = 37.0902, zoom = 4) %>%
@@ -56,6 +57,9 @@ flight_path <- function(data,m,w,o,d){
       addMarkers(df[,"Longitude_dest"],df[,"Latitude_dest"],
                  icon=list(iconUrl='./icon/plane_2.png',iconSize=c(20,20)),
                  popup = df[,'dest'])
+     
+      
+   
   }
   else{
     if(w=='all'){
@@ -65,6 +69,8 @@ flight_path <- function(data,m,w,o,d){
       df <- filter(data,month==m,weekday==w,orig==o)
       mark <- filter(data,month==m,weekday==w,orig==o,dest==d)
     }
+    
+    
   
 
 
@@ -93,6 +99,7 @@ flight_path <- function(data,m,w,o,d){
       addMarkers(df[,"Longitude_dest"],df[,"Latitude_dest"],
                  icon=list(iconUrl='./icon/plane_2.png',iconSize=c(20,20)),
                  popup = df[,'dest'])
+    
       
   #lng = ~Longitude_orig, lat = ~Latitude_orig)
 }

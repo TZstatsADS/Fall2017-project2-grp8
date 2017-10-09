@@ -53,6 +53,10 @@ destinations <- as.character(sort(unique(temp$dest)))
 #Define UI for application that draws a histogram
 shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
         tabPanel("Introduction",
+                 tabName="Introduction",
+                 icon=icon("book"),
+                 #menuItem("Overview",tabName="Overview",icon=icon("book")),
+                 
                  mainPanel(
                    img(src="world_flight.jpg",height='300',width='600'),
                    h2('Introduction')
@@ -60,7 +64,9 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                  # titlePanel(h2("Introduction")),
                  # mainPanel(tabPanel("Introduction"))
         ),
-        tabPanel('APP',
+        tabPanel('Search you flight',
+                 tabName='Search your flight',
+                 icon=icon('plane'),
                  sidebarLayout(
                    sidebarPanel(
                 
@@ -153,6 +159,8 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
         #          ),
         
         tabPanel('Statistics',
+                 tabName='App',
+                 icon=icon('bar-chart'),
                  tabsetPanel(type="pill",
                              tabPanel('Delay Time Expectation',
                                       sidebarLayout(
@@ -207,6 +215,8 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                  )
                  ),
         tabPanel('About Us',
+                 tabName='About Us',
+                 icon=icon('address-card-o'),
                  includeMarkdown('contact.md'))
         )
         )
