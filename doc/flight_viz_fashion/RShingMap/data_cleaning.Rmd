@@ -62,22 +62,3 @@ for(j in c(1:12)){
 ```
 
 
-
-```{r}
-observe({
-    leafletProxy("m_dynamic") %>%
-      clearShapes()%>%
-      addHeatmap(group = "heatmap",data = rainData(),lng = ~Lon, lat = ~Lat, intensity = ~Globvalue,
-                 minOpacity = 0.00001, gradient = c("#99FFFF","#00CCFF"),cellSize = 60, 
-                 blur = 70, max = 1.2001-input$raincolor, radius = 70) %>%
-      addCircles(group = "circle",data = filteredData(),lng = ~LONGITUDE, lat = ~LATITUDE,weight = input$pointradius,
-                 layerId = 100, color= "yellow") 
-    
-    
-    
-    #popup = pop_content)
-    
-    
-  })
-
-```
