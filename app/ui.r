@@ -69,7 +69,7 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
         ),
         tabPanel("Dynamic Map of Flights 1990 VS 2010",
                  tabName="Dynamic Map",
-                 icon=icon("book"),
+                 icon=icon("map-o"),
 
                  sidebarLayout(
                    sidebarPanel(
@@ -225,7 +225,9 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
         tabPanel('About Us',
                  tabName='About Us',
                  icon=icon('address-card-o'),
-                 includeMarkdown('contact.md'))
+                 
+                 box(includeMarkdown('contact.md')),
+                 box(img(src="thank_you.png",height='300',width='400')))
         )
         )
 
