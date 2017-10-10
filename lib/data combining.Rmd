@@ -1,0 +1,51 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+airport=read.csv("airportlocations.csv")
+airport$IATA=as.character(airport$IATA)
+year1012=read.csv("201012.csv")
+year1012$ORILatitude=NA
+year1012$ORILongitude=NA
+year1012$DESLatitude=NA
+year1012$DESLongitude=NA
+for (i in 1:nrow(airport)){
+  year1012$ORILatitude[year1012$ORIGIN==airport$IATA[i]]=airport$Latitude[i]
+  year1012$ORILongitude[year1012$ORIGIN==airport$IATA[i]]=airport$Longitude[i]
+  year1012$DESLatitude[year1012$DEST==airport$IATA[i]]=airport$Latitude[i]
+  year1012$DESLongitude[year1012$DEST==airport$IATA[i]]=airport$Longitude[i]
+}
+write.csv(year1012,file="201012.csv")
+
+
+t1<-read.csv("201001Fout.csv")
+t2<-read.csv("201002Fout.csv")
+t3<-read.csv("201003Fout.csv")
+t4<-read.csv("201004Fout.csv")
+t5<-read.csv("201005Fout.csv")
+t6<-read.csv("201006Fout.csv")
+t7<-read.csv("201007Fout.csv")
+t8<-read.csv("201008Fout.csv")
+t9<-read.csv("201009Fout.csv")
+t10<-read.csv("201010Fout.csv")
+t11<-read.csv("201011Fout.csv")
+t12<-read.csv("201012Fout.csv")
+tn<-rbind(t1,t2)
+tn<-rbind(tn,t3)
+tn<-rbind(tn,t4)
+tn<-rbind(tn,t5)
+tn<-rbind(tn,t6)
+tn<-rbind(tn,t7)
+tn<-rbind(tn,t8)
+tn<-rbind(tn,t9)
+tn<-rbind(tn,t10)
+tn<-rbind(tn,t11)
+tn<-rbind(tn,t12)
+write.csv(tn,file="2010.csv")
+```
