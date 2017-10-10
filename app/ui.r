@@ -11,7 +11,8 @@ packages.used <-
     "plotly",
     "leaflet",
     "geosphere",
-    "shinydashboard"
+    "shinydashboard",
+    "ROCR"
   )
 
 # check packages that need to be installed.
@@ -35,6 +36,7 @@ library(plotly)
 library(reshape2)
 library(leaflet)
 library(geosphere)
+library(ROCR)
 
 
 source("../lib/plot_functions.R")
@@ -131,55 +133,6 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                                    
                    )
                  ),
-        # 
-        # tabPanel('Delay Time Expectation',
-        #          sidebarLayout(
-        #            sidebarPanel(
-        #              
-        #              selectInput(inputId = "destination1",
-        #                          label  = "Select the Destination",
-        #                          choices = dest_airport,
-        #                          selected ='All'),
-        #              selectInput(inputId = "origin1",
-        #                          label  = "Select the Origin",
-        #                          choices = orig_airport,
-        #                          selected ='All'),
-        #              width = 3
-        #            ),
-        #            
-        #            mainPanel(
-        #              box(plotlyOutput("plt_delay_time"),width=300),
-        #              box(plotlyOutput("plt_delay_flight_distr"),width=300),
-        #              box(plotlyOutput("plt_delay_time_distr"),width=300)
-        #              )
-        #         )
-        # ),
-        # 
-        # tabPanel('Delay Reason Expectation',
-        #          sidebarLayout(
-        #            sidebarPanel(
-        #              
-        #              selectInput(inputId = "destination2",
-        #                          label  = "Select the Destination",
-        #                          choices = dest_airport,
-        #                          selected ='All'),
-        #              selectInput(inputId = "origin2",
-        #                          label  = "Select the Origin",
-        #                          choices = orig_airport,
-        #                          selected ='All'),
-        #              selectInput(inputId = "month2",
-        #                          label  = "Select the Month",
-        #                          choices = c('Jan','Feb','Mar','Apr','May','Jun','Jul',
-        #                                      'Aug','Sep','Oct','Nov','Dec'),
-        #                          selected ='Jan'),
-        #              width = 3
-        #            ),
-        #            
-        #            mainPanel(
-        #              box(plotlyOutput("plt_delay_reason_distr"),width=300)
-        #              )
-        #            )
-        #          ),
         
         tabPanel('Statistics',
                  tabName='App',
@@ -230,6 +183,38 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                                         
                                         mainPanel(
                                           box(plotlyOutput("plt_delay_reason_distr"),width=300)
+                                        )
+                                      )
+                                      
+                             ),
+                             tabPanel('Delay Probability',
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          
+                                          selectInput(inputId = "destination3",
+                                                      label  = "Select the destination",
+                                                      choices = dest_airport,
+                                                      selected ='ATL (Atlanta, GA)'),
+                                          selectInput(inputId = "origin3",
+                                                      label  = "Select the origin",
+                                                      choices = orig_airport,
+                                                      selected ='AUS (Austin, TX)'),
+                                          sliderInput(inputId = "mon3",
+                                                      label = "Select the month",
+                                                      value = 1, min =1, max =12),
+                                          sliderInput(inputId = "satisfy_time3",
+                                                      label = "Select the limit of delay time (hr)",
+                                                      value = 1,min = 0,max = 5),
+                                          width = 3
+                                        ),
+                                        
+                                        mainPanel(
+                                          box(plotOutput("treemap",width = "100%", height = 600),
+                                              absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                                                            draggable = TRUE, 
+                                                            top = 600, left = 20, right = "auto", bottom = "auto",
+                                                            width = 350, height = "auto",
+                                                            plotOutput("ggplot",width="100%",height="250px")))
                                         )
                                       )
                                       
