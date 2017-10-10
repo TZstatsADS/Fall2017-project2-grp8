@@ -187,7 +187,7 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                                       )
                                       
                              ),
-                             tabPanel('Delay Probability',
+                             tabPanel('Satisfication Probability of Carriers',
                                       sidebarLayout(
                                         sidebarPanel(
                                           
@@ -222,39 +222,7 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                              
                  )
                  ),
-        tabPanel("Carrier Choosing",
-                 titlePanel("Satisfication Probability of Carriers"),
-                 sidebarLayout(
-                   sidebarPanel(
-                     selectInput(inputId = "destination",
-                                 label  = "Select the destination",
-                                 choices = dest_airport,
-                                 selected ='ATL (Atlanta, GA)'),
-                     selectInput(inputId = "origin",
-                                 label  = "Select the origin",
-                                 choices = orig_airport,
-                                 selected ='AUS (Austin, TX)'),
-                     sliderInput(inputId = "mon",
-                                 label = "Select the month",
-                                 value = 1, min =1, max =12),
-                     sliderInput(inputId = "satisfy_time",
-                                 label = "Select the limit of delay time (hr)",
-                                 value = 1,min = 0,max = 5),
-                     
-                     width = 3
-                   ),
-                   
-                   mainPanel(
-                     plotOutput("treemap",width = "100%", height = 600),
-                     absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                   draggable = TRUE, 
-                                   top = 600, left = 20, right = "auto", bottom = "auto",
-                                   width = 350, height = "auto",
-                                   plotOutput("ggplot",width="100%",height="250px")
-                     )
-                   )
-                 )
-        ),
+        
         tabPanel('About Us',
                  tabName='About Us',
                  icon=icon('address-card-o'),

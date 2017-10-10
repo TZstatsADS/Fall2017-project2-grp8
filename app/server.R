@@ -39,22 +39,8 @@ shinyServer(function(input, output) {
   output$plt_delay_reason_distr = renderPlotly(plot_delay_reason_distribution(filtered_data=filtered_data_delay_reason(),
                                                                               origin=input$origin2,
                                                                               destination=input$destination2,
-<<<<<<< HEAD
-                                                                              month=input$month2))
-  output$treemap<-renderPlot({
-    #selcet a destination, an origin, a month and a satisfied time point
-    tree_select=tree_final1%>%
-      filter(dest==input$destination,orig==input$origin,month==input$mon,sat_time==input$satisfy_time)
-    if(nrow(tree_select)!=0){
-      tree_select$label<-paste(tree_select$carrier,", ",round(100*tree_select$prec,2),"%",sep="")
-      treemap(tree_select,index='label',vSize="prec",vColor="label",type="categorical", palette=rainbow(7),aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
-    }
-  })
-=======
                                                                               month = input$month2))
-           
->>>>>>> 1b3edd3f683b4a4e2d75991cd530f4f17a31475f
-  
+
   # Create Tree Map (Delay Probability in Statistics section)
   tree_final1=read.csv("../output/treemap1.csv",header=TRUE,as.is=TRUE)
   
