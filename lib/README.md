@@ -1,8 +1,4 @@
-# Project: NYC Open Data
-### Code lib Folder
-
-The lib directory contains various files with function definitions:
-# Project: NYC Open Data
+# Project: US Flight Data
 ### Code lib Folder
 
 The lib directory contains various files with function definitions:
@@ -43,7 +39,7 @@ The lib directory contains various files with function definitions:
         * filtered_data: filtered data from filter_data function
         * origin: origin of flight (can be All)
         * destination: destination of flight (can be All)
-        
+
     * plot_delay_reason_distribution(filtered_data, origin, destination, month): Plots distribution of delay reasons for each airline (stacked bar plot) given...
         * filtered_data: filtered data from filter_data function
         * origin: origin of flight (can be All)
