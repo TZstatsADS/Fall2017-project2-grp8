@@ -48,8 +48,9 @@ flight_path <- function(data,m,w,o,d){
                                        n=50,
                                        addStartEnd=TRUE,
                                        sp=TRUE),
-                   weight=1.5,color = 'white',
-                   popup= as.character(mean(df$percent_delays))) %>%
+                   weight=1.5,color = 'white'
+                   #popup= as.character(mean(df$percent_delays))
+                   ) %>%
       
       addMarkers(df[,"Longitude_orig"],df[,"Latitude_orig"],
                  icon=list(iconUrl='./icon/plane_2.png',iconSize=c(20,20)),
@@ -90,8 +91,9 @@ flight_path <- function(data,m,w,o,d){
                                        n=50,
                                        addStartEnd=TRUE,
                                        sp=TRUE),
-                   weight=3,color = 'red',
-                   popup= as.character(mean(df$percent_delays))) %>% 
+                   weight=3,color = 'red'
+                   #popup= as.character(mean(df$percent_delays))
+                   ) %>% 
                    
       addMarkers(df[,"Longitude_orig"],df[,"Latitude_orig"],
                  icon=list(iconUrl='./icon/plane_2.png',iconSize=c(20,20)),

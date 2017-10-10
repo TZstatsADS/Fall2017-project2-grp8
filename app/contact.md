@@ -4,6 +4,8 @@ We are Columbia University students at Department of Statistics.
 
 Team members and email address are as follows:
 
+
+
 Christina Huang (yh2859@columbia.edu)
 
 Han Lin (hl3006@columbia.edu)

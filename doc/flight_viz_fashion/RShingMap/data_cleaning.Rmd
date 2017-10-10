@@ -4,7 +4,8 @@ output: html_notebook
 ---
 This is data cleaning part of Map&Timeline visualization.
 
-```{r: read location of airports}
+## Airport location
+```{r}
 airportLocation <- read.table(file = "../../../data/FlightViz/airport_location.csv",
                               as.is = T, header = T,sep = ",")
 airportLocation <- airportLocation[!duplicated(airportLocation$IATA),]
@@ -14,13 +15,50 @@ colnames(airportLocation) <- c("LON", "LAT")
 airportLocation <- na.omit(airportLocation)
 ```
 
+## Reading Flight Data & Calculate Mean Delay Time
+```{r}
+i = 2010
+for(j in c(1:12)){
+    if(j < 10){ j = paste("0", j, sep = "")}
+    filenameIn <- paste("../../../data/FlightViz/", i, "/", i, j,".csv", sep = "")
+    flightData <- read.table(file = filenameIn, as.is = T, header = T,sep = ",")
+    flightData <- flightData[, c(1, 2, 3, 4)]
+    flightData <- flightData%>%
+      group_by(FL_DATE, ORIGIN, DEST) %>%
+      summarise(meanDelay=(mean(DEP_DELAY_NEW)))
+    flightData <- na.omit(flightData)
+    
+    filenameOut <- paste("../../../data/FlightViz/", i, "out/", i, j,"out.csv", sep = "")
+    write.table(flightData, file = filenameOut,
+                col.names = T, sep = ",")
+    print(paste(filenameOut, "done"))
+}
+```
 
 
-
-allPairs$ORIGIN_Lon <- airportLocation[allPairs[,1],1]
-    allPairs$ORIGIN_Lat <- airportLocation[allPairs[,1],2]
-    allPairs$DEST_Lon <- airportLocation[allPairs[,2],1]
-    allPairs$DEST_Lat <- airportLocation[allPairs[,2],2]
+## Add Airport Location in Each Data Row - final output
+```{r}
+i = 2010
+for(j in c(1:12)){
+    if(j < 10){ j = paste("0", j, sep = "")}
+    filenameIn <- paste("../../../data/FlightViz/", i, "out/", i, j,"out.csv", sep = "")
+    flightData <- read.table(file = filenameIn,
+                             as.is = T, header = T,sep = ",")
+    #flightData$FL_DATE <- parse_date_time(flightData$FL_DATE, "%Y-%m-%d")
+    
+    allPairs <- flightData
+    allPairs$ORIGIN_Lon <- airportLocation[allPairs[,2],1]
+    allPairs$ORIGIN_Lat <- airportLocation[allPairs[,2],2]
+    allPairs$DEST_Lon <- airportLocation[allPairs[,3],1]
+    allPairs$DEST_Lat <- airportLocation[allPairs[,3],2]
     allPairs <- na.omit(allPairs)
     
+    filenameOut <- paste("../../../data/FlightViz/", i, "Fout/", i, j,"Fout.csv", sep = "")
+    write.table(allPairs, file = filenameOut,
+                col.names = T, sep = ",")
+    print(paste(filenameOut, "done"))
+}
+    
 ```
+
+

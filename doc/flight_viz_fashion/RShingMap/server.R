@@ -10,26 +10,20 @@
 library(shiny)
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer <- function(input, output) {
   
   # Identify origin and destination
+  allPairs <- reactive({
+      subset(flightData, FL_DATE == input$range)%>%
+      select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
+  })
+    
   flightLines <- reactive({
-    
-    allPairs <- subset(flightData, FL_DATE == input$range)%>%
-      select(ORIGIN, DEST)
-    
-    allPairs$ORIGIN_Lon <- airportLocation[allPairs[,1],1]
-    allPairs$ORIGIN_Lat <- airportLocation[allPairs[,1],2]
-    allPairs$DEST_Lon <- airportLocation[allPairs[,2],1]
-    allPairs$DEST_Lat <- airportLocation[allPairs[,2],2]
-    allPairs <- na.omit(allPairs)
-    
-    inters <- character(0)
-    
-    gcIntermediate(allPairs[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
-                   allPairs[,c("DEST_Lon", "DEST_Lat")], 
+    gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
+                   allPairs()[,c("DEST_Lon", "DEST_Lat")], 
                     n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
-
+    
+    #inters <- character(0)
     #for(i in 1:nrow(allPairs)){
     #  inter <- gcIntermediate(airportLocation[allPairs[i,1],], 
     #                          airportLocation[allPairs[i,2],],
@@ -41,13 +35,22 @@ shinyServer(function(input, output) {
     #SpatialLines( list( Lines( unlist( ll1 ) , ID = 1) ) )
   })
   
+  
 
   
   # Output the route map  
-  output$map <- renderLeaflet({
-    leaflet(flightLines()) %>% 
+  output$m_dynamic <- renderLeaflet({
+    leaflet() %>% 
       addTiles() %>% 
-      addPolylines(color = 'red', weight=1.5)
+      setView(lng = -95.7129, lat = 37.0902, zoom = 4)
   })  
+  
+  observe({
+    leafletProxy("m_dynamic") %>%
+      clearShapes()%>%
+      addPolylines(group = "flights", data = flightLines(),
+                   color = allPairs()$meanDelay, weight=1)
+  })
+  
 }
-)
+
