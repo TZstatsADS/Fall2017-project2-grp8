@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
         hc_title(text="Flight Cancellation Information") %>%
         hc_add_series_scatter(select_data$total,select_data$num_cancel,select_data$rate/100,select_data$carrier,label=select_data$carrier)%>%
         hc_xAxis(title=list(text="number of flights"))%>%
-        hc_yAxis(title=list(text="number of cancellation flights"))
+        hc_yAxis(title=list(text="number of cancelled flights"))
     }
   })
   ## end HighChart
