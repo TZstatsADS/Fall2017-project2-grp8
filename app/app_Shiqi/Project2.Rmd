@@ -246,3 +246,57 @@ tabPanel("Carrier Choosing",
 )
 ### end Tree Map
 ```
+
+prepare data for the bubble plot
+```{r}
+setwd("/Users/duanshiqi/Documents/GitHub/Fall2017-project2-grp8/data/cancelled")
+d1<-read.csv("./2017_07.csv",head=T,as.is=T)
+d2<-read.csv("./2017_06.csv",head=T,as.is=T)
+d3<-read.csv("./2017_05.csv",head=T,as.is=T)
+d4<-read.csv("./2017_04.csv",head=T,as.is=T)
+d5<-read.csv("./2017_03.csv",head=T,as.is=T)
+d6<-read.csv("./2017_02.csv",head=T,as.is=T)
+d7<-read.csv("./2017_01.csv",head=T,as.is=T)
+d8<-read.csv("./2016_12.csv",head=T,as.is=T)
+d9<-read.csv("./2016_11.csv",head=T,as.is=T)
+d10<-read.csv("./2016_10.csv",head=T,as.is=T)
+d11<-read.csv("./2016_09.csv",head=T,as.is=T)
+d12<-read.csv("./2016_08.csv",head=T,as.is=T)
+d13<-read.csv("./2016_07.csv",head=T,as.is=T)
+d14<-read.csv("./2016_06.csv",head=T,as.is=T)
+d15<-read.csv("./2016_05.csv",head=T,as.is=T)
+d16<-read.csv("./2016_04.csv",head=T,as.is=T)
+d17<-read.csv("./2016_03.csv",head=T,as.is=T)
+d18<-read.csv("./2016_02.csv",head=T,as.is=T)
+d19<-read.csv("./2016_01.csv",head=T,as.is=T)
+d20<-read.csv("./2015_12.csv",head=T,as.is=T)
+d21<-read.csv("./2015_11.csv",head=T,as.is=T)
+d22<-read.csv("./2015_10.csv",head=T,as.is=T)
+d23<-read.csv("./2015_09.csv",head=T,as.is=T)
+d24<-read.csv("./2015_08.csv",head=T,as.is=T)
+d25<-read.csv("./2015_07.csv",head=T,as.is=T)
+d26<-read.csv("./2015_06.csv",head=T,as.is=T)
+d27<-read.csv("./2015_05.csv",head=T,as.is=T)
+d28<-read.csv("./2015_04.csv",head=T,as.is=T)
+d29<-read.csv("./2015_03.csv",head=T,as.is=T)
+d30<-read.csv("./2015_02.csv",head=T,as.is=T)
+d31<-read.csv("./2015_01.csv",head=T,as.is=T)
+d32<-read.csv("./2014_12.csv",head=T,as.is=T)
+d33<-read.csv("./2014_11.csv",head=T,as.is=T)
+d34<-read.csv("./2014_10.csv",head=T,as.is=T)
+d35<-read.csv("./2014_09.csv",head=T,as.is=T)
+d36<-read.csv("./2014_08.csv",head=T,as.is=T)
+
+
+
+
+```
+
+```{r}
+library(magrittr)
+library(highcharter)
+highchart() %>%
+  hc_title(text="Scatter chart") %>%
+  hc_add_series_scatter(mtcars$wt,mtcars$mpg,mtcars$drat,mtcars$hp)#%>%
+  #hc_add_annotations(rownames(mtcars))
+```
