@@ -1,0 +1,12 @@
+name: flightAnalysis
+title: flightAnalysis
+username:
+account: rainofmaster
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 224160
+bundleId: 1022008
+url: https://rainofmaster.shinyapps.io/flightAnalysis/
+when: 1507750535.08212
+asMultiple: FALSE
+asStatic: FALSE
