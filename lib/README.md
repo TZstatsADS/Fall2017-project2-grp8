@@ -45,5 +45,10 @@ The lib directory contains various files with function definitions:
         * origin: origin of flight (can be All)
         * destination: destination of flight (can be All)
         * month: month of flight (can be All)
+* [dynamic map.R](https://github.com/TZstatsADS/Fall2017-project2-grp8/blob/master/lib/dynamic%20map.R):Plots the airline map within the United States, and color the different delayed time Interval by different depth of yellow color.
 
-
+* [data combining.Rmd](https://github.com/TZstatsADS/Fall2017-project2-grp8/blob/master/lib/data%20combining.Rmd): Match the raw data(airport ID) with the data of locations(latitude, longitude of each airport), and combine the months raw data into the year data.
+        * airport IATA: airports' 3-character-ID
+        * ORILatitude/ORILongitude: Latitude/Longitude of origin airport of an Itinerary
+        * DESLatitude/DESLongitude: Latitude/Longitude of destination airport of an Itinerary
+* [updated airline carrier.Rmd](https://github.com/TZstatsADS/Fall2017-project2-grp8/blob/master/lib/updated%20airline%20carrier.R): Match the airlines' 2-characters-Code with its name.
