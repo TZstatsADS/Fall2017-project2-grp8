@@ -12,7 +12,7 @@ Term: Fall 2017
 	+ Peter Li
 	+ Han Lin
 
-The app is available here: https://flightdelayanalysis.shinyapps.io/flightdelayanalysis/
+The app is available here: https://rainofmaster.shinyapps.io/flightAnalysis/
 
 Data Source: [data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time)
 
