@@ -24,7 +24,7 @@ Data Source: [data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_
 
 ![screenshot](doc/screenshot1.png)
 
-![screenshot](doc/screenshot2.png)
+![screenshot](doc/screenshot8.jpg)
 
 ![screenshot](doc/screenshot3.png)
 
