@@ -37,7 +37,7 @@ library(lubridate)
 #                         as.is = T, header = T,sep = ",")
 #flightData1990$FL_DATE <- substr(flightData1990$FL_DATE, 6, 10)
 #flightData1990$FL_DATE <- parse_date_time(flightData1990$FL_DATE, "%m/%d")
-#flightData1990 <- flightData1990[flightData1990$ORIGIN == c("JFK", "LAX", "SEA", "ATL"),]
+#flightData1990 <- flightData1990[flightData1990$ORIGIN == c("JFK", "LAX", "SEA", "ATL", "ORD"),]
 
 
 
@@ -45,5 +45,5 @@ library(lubridate)
 #                         as.is = T, header = T,sep = ",")
 #flightData2010$FL_DATE <- substr(flightData2010$FL_DATE, 6, 10)
 #flightData2010$FL_DATE <- parse_date_time(flightData2010$FL_DATE, "%m-%d")
-#flightData2010 <- flightData2010[flightData2010$ORIGIN == c("JFK", "LAX", "SEA", "ATL"),]
+#flightData2010 <- flightData2010[flightData2010$ORIGIN == c("JFK", "LAX", "SEA", "ATL", "ORD"),]
 

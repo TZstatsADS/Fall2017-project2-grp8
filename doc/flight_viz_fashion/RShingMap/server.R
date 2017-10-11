@@ -29,7 +29,9 @@ shinyServer <- function(input, output) {
                 select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
       tmp$group <- tmp$meanDelay %/% 15
       tmp$group[tmp$group >= 10] <- 10
+      tmp$wid <- 0.3 * (tmp$meanDelay %/% 15) + 0.5
       tmp$group <- colfunc(10)[tmp$group+1]
+      
       tmp
   })
     
@@ -39,7 +41,7 @@ shinyServer <- function(input, output) {
     leaflet() %>% 
       addTiles() %>% 
       addProviderTiles("CartoDB.DarkMatter") %>%
-      setView(lng = -95.7129, lat = 37.0902, zoom = 3)
+      setView(lng = -116.7129, lat = 46.0902, zoom = 3)
   })  
   
   # Output II -- Inorder to avoid the twinkle graph
@@ -50,7 +52,7 @@ shinyServer <- function(input, output) {
                    data = gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
                                           allPairs()[,c("DEST_Lon", "DEST_Lat")], 
                                           n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE),
-                   color = allPairs()[,"group"], weight=1.5)
+                   color = allPairs()[,"group"], weight=allPairs()[,"wid"])
   })
   
 }

@@ -22,7 +22,7 @@ library(sparklyr)
 shinyUI <- fluidPage(
   
   # Title
-  titlePanel("NYCFlights13 Time Gained in Flight"),
+  titlePanel("Flight"),
   
   # Create sidebar 
   sidebarLayout(
@@ -33,7 +33,19 @@ shinyUI <- fluidPage(
         label = "Select 1990 OR 2010",
         choices = c("Year 1990", "Year 2010"),
         selected = "1990"),
-      helpText("The following selectInput frop down choices are dynamically populated based on the year you choose"),
+      helpText("The following timeline are dynamically generated
+               based on the year you choose."),
+      br(),
+      helpText("Here we select airports from five cities as *ORIGIN AIRPORT* for visualization:"),
+      helpText("New York City - JFK"),
+      helpText("Los Angeles - LAX"),
+      helpText("Seattle - SEA"),
+      helpText("Atlanta - ATL"),
+      helpText("Chicago - ORD"),
+      br(),
+      
+      helpText("The wider/goldener one line is, the larger delay time it has."),
+      helpText("Please click the button below for Dynamic Map view"),
       sliderInput(inputId ="range",
                   label = "Time of data collection:",
                   min = min(flightData1990$FL_DATE),
