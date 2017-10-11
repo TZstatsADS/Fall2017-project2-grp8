@@ -62,7 +62,8 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                  
                  mainPanel(
                    img(src="world_flight.jpg",height='300',width='600'),
-                   h2('Introduction')
+                   h2('Introduction'),
+                   includeMarkdown('intro.md')
                    )
                  # titlePanel(h2("Introduction")),
                  # mainPanel(tabPanel("Introduction"))
