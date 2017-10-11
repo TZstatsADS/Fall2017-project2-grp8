@@ -12,3 +12,5 @@ The purpose of this app is to aid customers in choosing a flight based on variou
 		* Delay Reason Distribution: shows distribution of delay reasons for a given flight and month by carrier
 	* Satisfaction Probability of Carriers:
 		* Tree map showing satisfaction probability for a given flight, month, and delay threshold by carrier (i.e. probability a given flight/month/carrier will arrive within your delay threshold)
+	* Cancellation:
+		* The scatter plot displays cancellation information on the airlines between the selected origin and destination in the selected month, where X-axis represents total number of flights in the past 3 years (201408-201707) for each carrier, Y-axis represents the total number of cancelled flights for each carrier(we use 0.001 to replace 0), and the size of the scatter points represents the non-cancellation rate for each carrier. So in this plot, when the size of the point is small, the flights of that carrier are more likely to have cancellations. Customers should prefer the carrier whose scatter point has larger x-value, lower y-value, and larger size.
