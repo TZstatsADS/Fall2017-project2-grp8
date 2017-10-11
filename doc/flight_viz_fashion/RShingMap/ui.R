@@ -31,7 +31,7 @@ shinyUI <- fluidPage(
       selectInput(
         inputId = "YEAR", 
         label = "Select 1990 OR 2010",
-        choices = c("1990", "2010"),
+        choices = c("Year 1990", "Year 2010"),
         selected = "1990"),
       helpText("The following selectInput frop down choices are dynamically populated based on the year you choose"),
       sliderInput(inputId ="range",
@@ -40,14 +40,12 @@ shinyUI <- fluidPage(
                   max = max(flightData1990$FL_DATE),
                   value = min(flightData1990$FL_DATE),#The initial value
                   step = days(),
-                  animate = animationOptions(interval = 200))
+                  animate = animationOptions(interval = 800))
     ),
 
   # Show a tabset that includes a plot, model, and table view
     mainPanel(
-      tabsetPanel(type = "tabs", 
-                  tabPanel("Map", leafletOutput("m_dynamic"))
-      )
+      tabPanel("Map", leafletOutput("m_dynamic"))
     )
   )
 )
