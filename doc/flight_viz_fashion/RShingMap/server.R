@@ -12,59 +12,31 @@ library(shiny)
 # Define server logic required to draw a histogram
 shinyServer <- function(input, output) {
   
-  
-  output$ui  <- renderUI({
-    if(is.null(input$YEAR) || is.na(input$YEAR)){
-      print("warning ohahahahaha")
-      return()
-    }
-    if(input$YEAR =="1990"){print("yes")
-      tmp <- sliderInput(inputId ="range",
-                                label = "Time of data collection:",
-                                min = min(flightData1990$FL_DATE),
-                                max = max(flightData1990$FL_DATE),
-                                value = min(flightData1990$FL_DATE),#The initial value
-                                step = days(),
-                                animate = animationOptions(interval = 200))
-    }else {
-      tmp <- sliderInput(inputId ="range",
-                                 label = "Time of data collection:",
-                                 min = min(flightData2010$FL_DATE),
-                                 max = max(flightData2010$FL_DATE),
-                                 value = min(flightData2010$FL_DATE),#The initial value
-                                 step = days(),
-                                 animate = animationOptions(interval = 200))
-    }
-    print(tmp)
-    tmp
-    
+  dataset <- reactive({
+    switch(input$YEAR,
+           "1990" = flightData1990,
+           "2010" = flightData2010
+           )
+  })
 
-  })
-  output$dynamic_value <- renderPrint({
-    str(input$range)
-  })
-  
   
   # Identify origin and destination
   allPairs <- reactive({
       year <- input$YEAR
       if(is.null(year) || is.na(year)){
-        print("warning lalala")
         return()
       }else if(year == "1990"){
-        flightData <- flightData1990
+        Data <- flightData1990
       }else{
-          flightData <- flightData2010
+        Data <- flightData2010
       }
-      print("lalallala")
-      print(input$range)
       colfunc <- colorRampPalette(c("blue", "white"))
-      tmp <- subset(flightData, FL_DATE == input$range)%>%
+      tmp <- subset(Data, FL_DATE == input$range)%>%
                 select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
-      print(tmp)
       tmp$group <- tmp$meanDelay %/% 15
       tmp$group[tmp$group >= 10] <- 10
       tmp$group <- colfunc(10)[tmp$group+1]
+      print(input$range)
       tmp
   })
     
