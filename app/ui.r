@@ -14,8 +14,8 @@ packages.used <-
     "shinydashboard",
     "ROCR",
     "sparklyr",
-    "DT",
-    "highcharter"
+    "DT"
+
   )
 
 # check packages that need to be installed.
@@ -42,7 +42,7 @@ library(geosphere)
 library(ROCR)
 library(DT)
 library(sparklyr)
-library(highcharter)
+
 
 source("../lib/plot_functions.R")
 source("../lib/filter_data_functions.R")
