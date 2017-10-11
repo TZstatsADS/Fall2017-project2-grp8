@@ -12,7 +12,8 @@ packages.used <-
     "leaflet",
     "geosphere",
     "shinydashboard",
-    "ROCR"
+    "ROCR",
+    "highcharter"
   )
 
 # check packages that need to be installed.
@@ -37,7 +38,7 @@ library(reshape2)
 library(leaflet)
 library(geosphere)
 library(ROCR)
-
+library(highcharter)
 
 source("../lib/plot_functions.R")
 source("../lib/filter_data_functions.R")
@@ -124,11 +125,8 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                  ),
                    
                    mainPanel(
-                     #plotOutput("delay_barplot",height='200px')
-                          
-                     box(leafletOutput("map"),
+                     box(leafletOutput("map23"),
                          width=600),
-                     
                      box(plotlyOutput("delay_barplot",height='200px'),width=300)
                      )
                                    
@@ -210,12 +208,31 @@ shinyUI(navbarPage(theme = "bootstrap.min-copy.css",'Flight Delay',
                                         ),
                                         
                                         mainPanel(
-                                          box(plotOutput("treemap",width = "100%", height = 600),
-                                              absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                                            draggable = TRUE, 
-                                                            top = 600, left = 20, right = "auto", bottom = "auto",
-                                                            width = 350, height = "auto",
-                                                            plotOutput("ggplot",width="100%",height="250px")))
+                                          box(plotOutput("treemap",width = "100%", height = 600))
+                                        )
+                                      )
+                                      
+                             ),
+                             tabPanel('Cancellation Analysis',
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          
+                                          selectInput(inputId = "destination4",
+                                                      label  = "Select the destination",
+                                                      choices = dest_airport,
+                                                      selected ='ATL (Atlanta, GA)'),
+                                          selectInput(inputId = "origin4",
+                                                      label  = "Select the origin",
+                                                      choices = orig_airport,
+                                                      selected ='AUS (Austin, TX)'),
+                                          sliderInput(inputId = "mon4",
+                                                      label = "Select the month",
+                                                      value = 1, min =1, max =12),
+                                          width = 3
+                                        ),
+                                        
+                                        mainPanel(
+                                          box(plotlyOutput("hcontainer"),width=600)
                                         )
                                       )
                                       

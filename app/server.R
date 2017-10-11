@@ -2,11 +2,12 @@ library(shiny)
 
 temp <-  read.csv("../output/temp.csv",header=T)
 raw_data <-  read.csv("../output/flight_data.csv")
+cancelData=read.csv("../output/cancelData.csv",header=TRUE,as.is=TRUE)
 
 shinyServer(function(input, output) {
   
   
-  output$map <- renderLeaflet({
+  output$map23 <- renderLeaflet({
     
     flight_path(temp,m=input$month,w=input$week,d=input$destination,o=input$origin)
   })
@@ -53,6 +54,18 @@ shinyServer(function(input, output) {
       treemap(tree_select,index='label',vSize="prec",vColor="label",type="categorical", palette=rainbow(7),aspRatio=30/30,drop.unused.levels = FALSE, position.legend="none")
     }
   })
+  
+  output$hcontainer<-renderPlotly({
+    select_data=cancelData%>%
+      filter(dest==input$destination4,orig==input$origin4,month==input$mon4)
+    if(nrow(select_data)!=0){
+      ggplotly(ggplot(select_data, aes(x = total, y = num_cancel, label = carrier)) +
+        geom_point(aes(size = rate/100, colour = carrier, alpha=.02)) + 
+        geom_text(hjust = 1, size = 2) +
+        scale_size(range = c(1,5)) +
+        theme_bw())
+      
+    }})
                                                                              
   #========== DINAMIC MAP PART ==========                                                                                                                                               month=input$month2))
   # Identify origin and destination
