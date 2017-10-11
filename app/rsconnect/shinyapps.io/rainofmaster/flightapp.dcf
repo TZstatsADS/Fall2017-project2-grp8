@@ -1,0 +1,12 @@
+name: flightapp
+title: flightApp
+username:
+account: rainofmaster
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 223957
+bundleId: 1020771
+url: https://rainofmaster.shinyapps.io/flightapp/
+when: 1507702184.4649
+asMultiple: FALSE
+asStatic: FALSE

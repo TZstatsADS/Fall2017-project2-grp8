@@ -13,6 +13,8 @@ packages.used <-
     "geosphere",
     "shinydashboard",
     "ROCR",
+    "sparklyr",
+    "DT",
     "highcharter"
   )
 
@@ -38,6 +40,8 @@ library(reshape2)
 library(leaflet)
 library(geosphere)
 library(ROCR)
+library(DT)
+library(sparklyr)
 library(highcharter)
 
 source("../lib/plot_functions.R")
