@@ -12,44 +12,80 @@ library(shiny)
 # Define server logic required to draw a histogram
 shinyServer <- function(input, output) {
   
+  
+  output$ui  <- renderUI({
+    if(is.null(input$YEAR) || is.na(input$YEAR)){
+      print("warning ohahahahaha")
+      return()
+    }
+    if(input$YEAR =="1990"){print("yes")
+      tmp <- sliderInput(inputId ="range",
+                                label = "Time of data collection:",
+                                min = min(flightData1990$FL_DATE),
+                                max = max(flightData1990$FL_DATE),
+                                value = min(flightData1990$FL_DATE),#The initial value
+                                step = days(),
+                                animate = animationOptions(interval = 200))
+    }else {
+      tmp <- sliderInput(inputId ="range",
+                                 label = "Time of data collection:",
+                                 min = min(flightData2010$FL_DATE),
+                                 max = max(flightData2010$FL_DATE),
+                                 value = min(flightData2010$FL_DATE),#The initial value
+                                 step = days(),
+                                 animate = animationOptions(interval = 200))
+    }
+    print(tmp)
+    tmp
+    
+
+  })
+  output$dynamic_value <- renderPrint({
+    str(input$range)
+  })
+  
+  
   # Identify origin and destination
   allPairs <- reactive({
-      subset(flightData, FL_DATE == input$range)%>%
-      select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
+      year <- input$YEAR
+      if(is.null(year) || is.na(year)){
+        print("warning lalala")
+        return()
+      }else if(year == "1990"){
+        flightData <- flightData1990
+      }else{
+          flightData <- flightData2010
+      }
+      print("lalallala")
+      print(input$range)
+      colfunc <- colorRampPalette(c("blue", "white"))
+      tmp <- subset(flightData, FL_DATE == input$range)%>%
+                select(ORIGIN_Lon, ORIGIN_Lat, DEST_Lon, DEST_Lat, meanDelay)
+      print(tmp)
+      tmp$group <- tmp$meanDelay %/% 15
+      tmp$group[tmp$group >= 10] <- 10
+      tmp$group <- colfunc(10)[tmp$group+1]
+      tmp
   })
     
-  flightLines <- reactive({
-    gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
-                   allPairs()[,c("DEST_Lon", "DEST_Lat")], 
-                    n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
-    
-    #inters <- character(0)
-    #for(i in 1:nrow(allPairs)){
-    #  inter <- gcIntermediate(airportLocation[allPairs[i,1],], 
-    #                          airportLocation[allPairs[i,2],],
-    #                          n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE)
-    #  inters <- c(inters, inter)
-    #}
-    #ll0 <- lapply( inters , function(x) `@`(x , "lines") )
-    #ll1 <- lapply( unlist( ll0 ) , function(y) `@`(y,"Lines") )
-    #SpatialLines( list( Lines( unlist( ll1 ) , ID = 1) ) )
-  })
-  
-  
-
   
   # Output the route map  
   output$m_dynamic <- renderLeaflet({
     leaflet() %>% 
       addTiles() %>% 
+      addProviderTiles(providers$CartoDB.DarkMatter) %>%
       setView(lng = -95.7129, lat = 37.0902, zoom = 4)
   })  
   
+  # Output II -- Inorder to avoid the twinkle graph
   observe({
     leafletProxy("m_dynamic") %>%
       clearShapes()%>%
-      addPolylines(group = "flights", data = flightLines(),
-                   color = allPairs()$meanDelay, weight=1)
+      addPolylines(group = "flights", 
+                   data = gcIntermediate(allPairs()[,c("ORIGIN_Lon", "ORIGIN_Lat")], 
+                                          allPairs()[,c("DEST_Lon", "DEST_Lat")], 
+                                          n=10, addStartEnd=TRUE, sp = TRUE, breakAtDateLine = TRUE),
+                   color = allPairs()[,"group"], weight=1)
   })
   
 }

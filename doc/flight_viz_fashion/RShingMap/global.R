@@ -33,10 +33,14 @@ library(lubridate)
 ##========= data cleaning part =========
 
 
-flightData <- read.table(file = "../../../data/FlightViz/1990Fout/199001Fout.csv",
-                         as.is = T, header = T,sep = ",")
-flightData$FL_DATE <- parse_date_time(flightData$FL_DATE, "%Y-%m-%d")
-flightData <- flightData[flightData$ORIGIN == c("JFK", "LAX", "SEA"),]
+#flightData1990 <- read.table(file = "../../../data/FlightViz/1990.csv",
+#                         as.is = T, header = T,sep = ",")
+#flightData1990$FL_DATE <- parse_date_time(flightData1990$FL_DATE, "%Y-%m-%d")
+#flightData1990 <- flightData1990[flightData1990$ORIGIN == c("JFK", "LAX", "SEA", "ATL"),]
 
 
+#flightData2010 <- read.table(file = "../../../data/FlightViz/2010.csv",
+#                         as.is = T, header = T,sep = ",")
+#flightData2010$FL_DATE <- parse_date_time(flightData2010$FL_DATE, "%Y-%m-%d")
+#flightData2010 <- flightData2010[flightData2010$ORIGIN == c("JFK", "LAX", "SEA", "ATL"),]
 
