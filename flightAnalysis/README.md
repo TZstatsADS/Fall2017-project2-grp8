@@ -1,5 +1,4 @@
 # Project: NYC Open Data
-### Output folder
+### Folder for deploying the app
 
-The output directory contains analysis output, processed datasets, logs, or other processed things.
-
+The directory contains the app files for the Shiny App (i.e., ui.r and server.r) and all related files of data and codes. To deploy the app, remember to decompress the zip files.
