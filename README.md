@@ -18,6 +18,8 @@ We do this by using the last 3 years of flight data to produce statistics and mo
 
 What's more, the app also allows users to specify a **threshold of minutes** they will allow the flight to be delayed to determine their satisfaction probability (i.e. probability the user will arrive within their threshold). Further analysis is also provided on cancellations.
 
+
+
 ## Contribution statement
 All team members contributed equally in all stages of this project. All members discussed the framework, collected and cleaned data from data.gov, and designed the app. Team members wrote codes for ui.R and server.R for their parts, and combined them together and deployed the app. All team members uploaded their work presented in this GitHub repository including this contributions statement. 
 
@@ -31,14 +33,18 @@ All team members contributed equally in all stages of this project. All members 
 
 
 
-+ **Project Demonstration**:
-
+## Project Demonstration
+### Dynamic Map of Delay Time (1990 vs 2010)
 ![screenshot](doc/screenshot1.png)
 
+### Recommendation Flight Carrier
 ![screenshot](doc/screenshot8.jpg)
 
+### Statistic Analysis
+- Delay Time
 ![screenshot](doc/screenshot3.png)
 
+- Delay Reason
 ![screenshot](doc/screenshot4.png)
 
 ![screenshot](doc/screenshot5.png)
