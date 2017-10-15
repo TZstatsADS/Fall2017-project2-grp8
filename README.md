@@ -1,6 +1,6 @@
 # Project 2: Flight Delay Analysis RShiny App
 
-You are welcomed to visit our APP [here](https://rainofmaster.shinyapps.io/flightAnalysis/)
+You are welcomed to visit our APP [here](https://rainofmaster.shinyapps.io/flightAnalysis/). 
 We are **Team 8**!
 
 ## Team members
@@ -35,7 +35,7 @@ All team members contributed equally in all stages of this project. All members 
 
 ## Project Demonstration
 ### Introduction Page
-![screenshot](doc/screenshot1.png)
+![screenshot](doc/screenshot1.png | width = 100)
 
 ### Dynamic Map of Delay Time (1990 vs 2010)
 
@@ -63,6 +63,8 @@ All team members contributed equally in all stages of this project. All members 
 + [data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time)
 + [openflights.org](https:/openflights.org/data.html)
 
+
+------------------------------------------------------------------------
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
