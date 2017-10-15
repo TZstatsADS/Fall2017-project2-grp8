@@ -35,7 +35,7 @@ All team members contributed equally in all stages of this project. All members 
 
 ## Project Demonstration
 ### Introduction Page
-![screenshot](doc/screenshot1.png | width = 100)
+![screenshot](doc/screenshot1.png = 100*)
 
 ### Dynamic Map of Delay Time (1990 vs 2010)
 
