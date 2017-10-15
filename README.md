@@ -38,8 +38,7 @@ All team members contributed equally in all stages of this project. All members 
 <img src="doc/screenshot1.png" width="750">
 
 ### Dynamic Map of Delay Time (1990 vs 2010)
-
-<img src="doc/screenshot8.png" width="750">
+<img src="doc/screenshot8.jpg" width="750">
 
 ### Recommendation Flight Carrier
 <img src="doc/screenshot3.png" width="750">
