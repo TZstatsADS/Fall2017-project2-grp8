@@ -34,28 +34,34 @@ All team members contributed equally in all stages of this project. All members 
 
 
 ## Project Demonstration
-### Dynamic Map of Delay Time (1990 vs 2010)
+### Introduction Page
 ![screenshot](doc/screenshot1.png)
 
-### Recommendation Flight Carrier
+### Dynamic Map of Delay Time (1990 vs 2010)
+
 ![screenshot](doc/screenshot8.jpg)
+
+### Recommendation Flight Carrier
+
+![screenshot](doc/screenshot3.png)
 
 ### Statistic Analysis
 - Delay Time
-![screenshot](doc/screenshot3.png)
 
-- Delay Reason
 ![screenshot](doc/screenshot4.png)
 
+- Delay Reason
 ![screenshot](doc/screenshot5.png)
 
+- Comparison between Carriers
 ![screenshot](doc/screenshot6.png)
 
+- Cancellation Analysis
 ![screenshot](doc/screenshot7.png)
 
 ## Data Source
-[data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time)
-[openflights.org](https:/openflights.org/data.html)
++ [data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time)
++ [openflights.org](https:/openflights.org/data.html)
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
