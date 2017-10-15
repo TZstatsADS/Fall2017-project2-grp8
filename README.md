@@ -35,30 +35,27 @@ All team members contributed equally in all stages of this project. All members 
 
 ## Project Demonstration
 ### Introduction Page
-<img src="doc/screenshot1.png" width="100">
-![screenshot](doc/screenshot1.png =100x20)
+<img src="doc/screenshot1.png" width="750">
 
 ### Dynamic Map of Delay Time (1990 vs 2010)
 
-![screenshot](doc/screenshot8.jpg)
+<img src="doc/screenshot8.png" width="750">
 
 ### Recommendation Flight Carrier
-
-![screenshot](doc/screenshot3.png)
+<img src="doc/screenshot3.png" width="750">
 
 ### Statistic Analysis
 - Delay Time
-
-![screenshot](doc/screenshot4.png)
+<img src="doc/screenshot4.png" width="750">
 
 - Delay Reason
-![screenshot](doc/screenshot5.png)
+<img src="doc/screenshot5.png" width="750">
 
 - Comparison between Carriers
-![screenshot](doc/screenshot6.png)
+<img src="doc/screenshot6.png" width="750">
 
 - Cancellation Analysis
-![screenshot](doc/screenshot7.png)
+<img src="doc/screenshot7.png" width="750">
 
 ## Data Source
 + [data.gov](https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time)
